@@ -34,5 +34,17 @@ module NPC_Generator(
     );
 
     // TODO: Complete this module
+    
+    always@(*)
+    begin
+        if (br == 1)
+            NPC <= br_target;
+        else if (jalr == 1)
+            NPC <= jalr_target;
+        else if (jal == 1) 
+            NPC <= jal_target;
+        else
+            NPC <= PC;
+    end
 
 endmodule

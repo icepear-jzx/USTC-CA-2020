@@ -53,5 +53,9 @@ module ControllerDecoder(
     );
 
     // TODO: Complete this module
+    
+    assign jal = inst[6] & inst[5] & ~inst[4] & inst[3] & inst [2] & inst[1] & inst[0]; // 1101111
+    assign jalr = inst[6] & inst[5] & ~inst[4] & ~inst[3] & inst [2] & inst[1] & inst[0]; // 1100111
+
 
 endmodule
