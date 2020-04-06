@@ -54,8 +54,128 @@ module ControllerDecoder(
 
     // TODO: Complete this module
     
-    assign jal = inst[6] & inst[5] & ~inst[4] & inst[3] & inst [2] & inst[1] & inst[0]; // 1101111
-    assign jalr = inst[6] & inst[5] & ~inst[4] & ~inst[3] & inst [2] & inst[1] & inst[0]; // 1100111
+    wire opcode = inst[6:0];
+    wire func3 = inst[14:12];
 
+    wire op_slli = (opcode == 7'b0010011 && func3[1:0] == 2'b01) ? 1 : 0; // SLLI SRLI SRAI
+    wire op_addi = (opcode == 7'b0010011 && func3[1:0] != 2'b01) ? 1 : 0; // ADDI SLTI SLTIU XORI ORI ANDI
+    wire op_add = (opcode == 7'b0110011) ? 1 : 0; // ADD SUB SLL SRL SRA SLT SLTU XOR OR AND
+    wire op_lui = (opcode == 7'b0110111) ? 1 : 0; // LUI
+    wire op_auipc = (opcode == 7'b0010111) ? 1 : 0; // AUIPC
+    wire op_jal = (opcode == 7'b1101111) ? 1 : 0; // JAL
+    wire op_jalr = (opcode == 7'b1100111) ? 1 : 0; // JALR
+    wire op_beq = (opcode == 7'b1100011) ? 1 : 0; // BEQ BNE BLT BGE BLTU BGEU
+    wire op_lb = (opcode == 7'b0000011) ? 1 : 0; // LB LH LW LBU LHU
+    wire op_sb = (opcode == 7'b0100011) ? 1 : 0; // SB SH SW
+
+    assign jal = op_jal;
+    assign jalr = op_jalr;
+
+    assign op2_src = ~op_add;
+
+    assign load_npc = op_jal | op_jalr;
+
+    assign wb_select = op_lb;
+
+    assign alu_src1 = op_auipc;
+    assign alu_src2 = (op_add) ? 2'b00 : ((op_slli) ? 2'b01 : 2'b10);
+    
+    always@(*) 
+    begin
+        // ALU_func
+        if (op_alli | op_addi | op_add) 
+        begin
+            case (func3)
+                3'b000: 
+                begin
+                    if (op_alli | op_add)
+                        ALU_func <= (inst[30]) ? `SUB : `ADD;
+                    else
+                        ALU_func <= `ADD;
+                end
+                3'b001: ALU_func <= `SLL;
+                3'b010: ALU_func <= `SLT;
+                3'b011: ALU_func <= `SLTU;
+                3'b100: ALU_func <= `XOR;
+                3'b101: ALU_func <= (inst[30]) ? `SRA : `SRL;
+                3'b110: ALU_func <= `OR;
+                3'b111: ALU_func <= `AND;
+                default: ALU_func <= `ADD;
+            endcase
+        end
+        else if (op_lui)
+        begin
+            ALU_func <= `LUI;
+        end
+        else
+        begin
+            ALU_func <= `ADD;
+        end
+        // br_type
+        if (op_beq)
+        begin
+            case (func3)
+                3'b000: br_type <= `BEQ;
+                3'b001: br_type <= `BNE;
+                3'b100: br_type <= `BLT;
+                3'b101: br_type <= `BGE;
+                3'b110: br_type <= `BLTU;
+                3'b111: br_type <= `BGEU;
+                default: br_type <= `NOBRANCH;
+            endcase
+        end
+        else
+        begin
+            br_type <= `NOBRANCH;
+        end
+        // load_type
+        if (op_lb)
+        begin
+            case (func3)
+                3'b000: load_type <= `LB;
+                3'b001: load_type <= `LH;
+                3'b010: load_type <= `LW;
+                3'b100: load_type <= `LBU;
+                3'b101: load_type <= `LHU;
+                default: load_type <= `NOREGWRITE;
+            endcase
+        end
+        else
+        begin
+            load_type <= `NOREGWRITE;
+        end
+        // src_reg_en
+        if (op_add | op_beq | op_sb)
+            src_reg_en <= 2'b11;
+        else if (op_addi | op_alli | op_jalr | op_lb)
+            src_reg_en <= 2'b10;
+        else
+            src_reg_en <= 2'b00;
+        // reg_write_en
+        if (op_beq | op_sb)
+            reg_write_en <= 1'b0;
+        else
+            reg_write_en <= 1'b1;
+        // cache_write_en
+        if (op_sb)
+            cache_write_en <= 1'b1;
+        else
+            cache_write_en <= 1'b0;
+        // imm_type
+        if (op_alli | op_add)
+            imm_type <= `RTYPE;
+        else if (op_addi | op_jalr | op_lb)
+            imm_type <= `ITYPE;
+        else if (op_sb)
+            imm_type <= `STYPE;
+        else if (op_beq)
+            imm_type <= `BTYPE;
+        else if (op_lui | op_auipc)
+            imm_type <= `UTYPE;
+        else if (op_jal)
+            imm_type <= `JTYPE;
+        else
+            imm_type <= `RTYPE;
+    end
 
 endmodule
