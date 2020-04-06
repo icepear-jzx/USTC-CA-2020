@@ -33,5 +33,17 @@ module DataExtend(
     );
 
     // TODO: Complete this module
+    
+    always@(*)
+    begin
+        case (load_type)
+            `NOREGWRITE: dealt_data <= 32'b0;
+            `LB: dealt_data <= {{24{data[7]}}, data[7:0]};
+            `LH: dealt_data <= {{16{data[15]}}, data[15:0]};
+            `LW: dealt_data <= data;
+            `LBU: dealt_data <= {24'b0, data[7:0]};
+            `LHU: dealt_data <= {16'b0, data[15:0]};
+        endcase
+    end
 
 endmodule

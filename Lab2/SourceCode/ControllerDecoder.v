@@ -162,9 +162,9 @@ module ControllerDecoder(
         else
             cache_write_en <= 1'b0;
         // imm_type
-        if (op_alli | op_add)
+        if (op_add)
             imm_type <= `RTYPE;
-        else if (op_addi | op_jalr | op_lb)
+        else if (op_alli | op_addi | op_jalr | op_lb)
             imm_type <= `ITYPE;
         else if (op_sb)
             imm_type <= `STYPE;
