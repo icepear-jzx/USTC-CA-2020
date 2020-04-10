@@ -118,10 +118,10 @@ module HarzardUnit(
             end
 
             //forward reg2 , op2_sel: ALU的操作数2来源：2'b00表示来自ALU转发数据，2'b01表示来自write back data转发，2'b10表示来自reg2地址，2'b11表示来自reg2或立即数
-            if (reg_dstM == reg2_srcE && reg_write_en_MEM == 1 & src_reg_en[0] == 1 && reg_dstM != 5'b0) begin
+            if (reg_dstM == reg2_srcE && reg_write_en_MEM == 1 && src_reg_en[0] == 1 && ~wb_select && reg_dstM != 5'b0) begin
                 op2_sel = 2'b00;
             end
-            else if (reg_dstW == reg2_srcE && reg_write_en_WB == 1 & src_reg_en[0] == 1 && reg_dstW != 5'b0) begin
+            else if (reg_dstW == reg2_srcE && reg_write_en_WB == 1 && src_reg_en[0] == 1 && ~wb_select && reg_dstW != 5'b0) begin
                 op2_sel = 2'b01;
             end
             else begin
@@ -129,7 +129,7 @@ module HarzardUnit(
             end
 
             // reg2_sel:reg2的来源
-            if (src_reg_en[0]) begin
+            if (src_reg_en[0] && wb_select) begin
                 if (reg2_srcE != 5'b0 && reg_dstM != 5'b0 && reg_write_en_MEM && reg2_srcE == reg_dstM) begin
                     reg2_sel <= 2'h0;
                 end else if (reg2_srcE != 5'b0 && reg_dstW != 5'b0 && reg_write_en_WB && reg2_srcE == reg_dstW) begin
