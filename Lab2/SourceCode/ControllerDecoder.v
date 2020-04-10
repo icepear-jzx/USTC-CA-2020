@@ -158,9 +158,18 @@ module ControllerDecoder(
             reg_write_en <= 1'b1;
         // cache_write_en
         if (op_sb)
-            cache_write_en <= 1'b1;
+        begin
+            case(func3)
+                3'b000: cache_write_en <= 4'b0001; // SB
+                3'b001: cache_write_en <= 4'b0011; // SH
+                3'b010: cache_write_en <= 4'b1111; // SW
+                default: cache_write_en <= 4'b0000;
+            endcase
+        end
         else
-            cache_write_en <= 1'b0;
+        begin
+            cache_write_en <= 4'b0000;
+        end
         // imm_type
         if (op_add)
             imm_type <= `RTYPE;
