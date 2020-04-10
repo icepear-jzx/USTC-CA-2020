@@ -54,8 +54,8 @@ module ControllerDecoder(
 
     // TODO: Complete this module
     
-    wire opcode = inst[6:0];
-    wire func3 = inst[14:12];
+    wire [6:0] opcode = inst[6:0];
+    wire [2:0] func3 = inst[14:12];
 
     wire op_slli = (opcode == 7'b0010011 && func3[1:0] == 2'b01) ? 1 : 0; // SLLI SRLI SRAI
     wire op_addi = (opcode == 7'b0010011 && func3[1:0] != 2'b01) ? 1 : 0; // ADDI SLTI SLTIU XORI ORI ANDI
@@ -83,12 +83,12 @@ module ControllerDecoder(
     always@(*) 
     begin
         // ALU_func
-        if (op_alli | op_addi | op_add) 
+        if (op_slli | op_addi | op_add) 
         begin
             case (func3)
                 3'b000: 
                 begin
-                    if (op_alli | op_add)
+                    if (op_slli | op_add)
                         ALU_func <= (inst[30]) ? `SUB : `ADD;
                     else
                         ALU_func <= `ADD;
@@ -147,7 +147,7 @@ module ControllerDecoder(
         // src_reg_en
         if (op_add | op_beq | op_sb)
             src_reg_en <= 2'b11;
-        else if (op_addi | op_alli | op_jalr | op_lb)
+        else if (op_addi | op_slli | op_jalr | op_lb)
             src_reg_en <= 2'b10;
         else
             src_reg_en <= 2'b00;
@@ -164,7 +164,7 @@ module ControllerDecoder(
         // imm_type
         if (op_add)
             imm_type <= `RTYPE;
-        else if (op_alli | op_addi | op_jalr | op_lb)
+        else if (op_slli | op_addi | op_jalr | op_lb)
             imm_type <= `ITYPE;
         else if (op_sb)
             imm_type <= `STYPE;

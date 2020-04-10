@@ -25,7 +25,8 @@ module RV32ICore(
     input wire [31:0] CPU_Debug_InstCache_A2,
     input wire [31:0] CPU_Debug_InstCache_WD2,
     input wire [ 3:0] CPU_Debug_InstCache_WE2,
-    output wire [31:0] CPU_Debug_InstCache_RD2
+    output wire [31:0] CPU_Debug_InstCache_RD2,
+    output wire [31:0] CPU_Debug_PC
     );
 	//wire values definitions
     wire bubbleF, flushF, bubbleD, flushD, bubbleE, flushE, bubbleM, flushM, bubbleW, flushW;
@@ -61,7 +62,7 @@ module RV32ICore(
     wire [1:0] op1_sel, op2_sel, reg2_sel;
 
 
-
+    assign CPU_Debug_PC = NPC;
 
     // Adder to compute PC + 4
     assign PC_4 = PC_IF + 4;

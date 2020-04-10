@@ -12,10 +12,10 @@
 // !!! ALL YOU NEED TO CHANGE IS 4 FILE PATH BELOW !!!	
 //				(they are all optional, you can run cpu without change paths here,if files are failed to open, we will not dump the content to .txt and will not try to initial your bram)
 //////////////////////////////////////////////////////////////////////////////////
-`define DataCacheContentLoadPath "E:\\Code\\Simulation\\2testAll.data"
-`define InstCacheContentLoadPath "E:\\Code\\Simulation\\2testAll.inst"
-`define DataCacheContentSavePath "E:\\Code\\Simulation\\DataCacheContent.txt"
-`define InstCacheContentSavePath "E:\\Code\\Simulation\\InstCacheContent.txt"
+`define DataCacheContentLoadPath "/home/ubuntu/USTC-CA-2020/Lab2/Simulation/1testAll.data"
+`define InstCacheContentLoadPath "/home/ubuntu/USTC-CA-2020/Lab2/Simulation/1testAll.inst"
+`define DataCacheContentSavePath "/home/ubuntu/USTC-CA-2020/Lab2/Simulation/DataCacheContent.txt"
+`define InstCacheContentSavePath "/home/ubuntu/USTC-CA-2020/Lab2/Simulation/InstCacheContent.txt"
 `define BRAMWORDS 4096  //a word is 32bit, so our bram is 4096*32bit
 
 module testBench(
@@ -31,6 +31,7 @@ module testBench(
     reg [31:0] CPU_Debug_InstCache_WD2;
     reg [3:0] CPU_Debug_InstCache_WE2;
     wire [31:0] CPU_Debug_InstCache_RD2;
+    wire [31:0] CPU_Debug_PC;
     //generate clock signal
     always #1 CPU_CLK = ~CPU_CLK;
     // Connect the CPU core
@@ -44,7 +45,8 @@ module testBench(
         .CPU_Debug_InstCache_A2(CPU_Debug_InstCache_A2),
         .CPU_Debug_InstCache_WD2(CPU_Debug_InstCache_WD2),
         .CPU_Debug_InstCache_WE2(CPU_Debug_InstCache_WE2),
-        .CPU_Debug_InstCache_RD2(CPU_Debug_InstCache_RD2)
+        .CPU_Debug_InstCache_RD2(CPU_Debug_InstCache_RD2),
+        .CPU_Debug_PC(CPU_Debug_PC)
         );
     //define file handles
     integer LoadDataCacheFile;
