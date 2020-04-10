@@ -64,4 +64,21 @@ module HarzardUnit(
 
     // TODO: Complete this module
 
+    always@(*) 
+    begin
+        flushF <= 1'b0;
+        bubbleF <= 1'b0;
+        flushD <= 1'b0;
+        bubbleD <= 1'b0;
+        flushE <= 1'b0;
+        bubbleE <= 1'b0;
+        flushM <= 1'b0;
+        bubbleM <= 1'b0;
+        flushW <= 1'b0;
+        bubbleW <= 1'b0;
+
+        op1_sel <= (alu_src1) ? 2'b10 : 2'b11;
+        op2_sel <= (alu_src2 == 2'b01) ? 2'b10 : 2'b11;
+    end
+
 endmodule
