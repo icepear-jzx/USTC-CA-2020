@@ -37,12 +37,43 @@ module DataExtend(
     always@(*)
     begin
         case (load_type)
-            `NOREGWRITE: dealt_data <= 32'b0;
-            `LB: dealt_data <= {{24{data[7]}}, data[7:0]};
-            `LH: dealt_data <= {{16{data[15]}}, data[15:0]};
+            `NOREGWRITE: dealt_data <= data;
+            `LB: 
+            begin
+                case (addr)
+                    2'b00: dealt_data <= {{24{data[7]}}, data[7:0]};
+                    2'b01: dealt_data <= {{24{data[15]}}, data[15:8]};
+                    2'b10: dealt_data <= {{24{data[23]}}, data[23:16]};
+                    2'b11: dealt_data <= {{24{data[31]}}, data[31:24]};
+                endcase
+            end
+            `LH: 
+            begin
+                case (addr)
+                    2'b00: dealt_data <= {{16{data[15]}}, data[15:0]};
+                    2'b10: dealt_data <= {{16{data[31]}}, data[31:16]};
+                    default: dealt_data <= 32'bx;
+                endcase
+            end
             `LW: dealt_data <= data;
-            `LBU: dealt_data <= {24'b0, data[7:0]};
-            `LHU: dealt_data <= {16'b0, data[15:0]};
+            `LBU: 
+            begin
+                case (addr)
+                    2'b00: dealt_data <= {24'b0, data[7:0]};
+                    2'b01: dealt_data <= {24'b0, data[15:8]};
+                    2'b10: dealt_data <= {24'b0, data[23:16]};
+                    2'b11: dealt_data <= {24'b0, data[31:24]};
+                endcase
+            end
+            `LHU: 
+            begin
+                case (addr)
+                    2'b00: dealt_data <= {16'b0, data[15:0]};
+                    2'b10: dealt_data <= {16'b0, data[31:16]}; 
+                    default: dealt_data <= 32'bx;
+                endcase
+            end
+            default: dealt_data <= 32'bx;
         endcase
     end
 

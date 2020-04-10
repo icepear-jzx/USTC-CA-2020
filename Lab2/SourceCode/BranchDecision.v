@@ -46,6 +46,8 @@ module BranchDecision(
             `BGE: br <= ($signed(reg1) >= $signed(reg2)) ? 1 : 0;
             `BGEU: br <= (reg1 >= reg2) ? 1 : 0;
             
+            default: br <= 0;
+
         endcase
     end
 
