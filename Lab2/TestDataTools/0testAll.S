@@ -85,84 +85,139 @@
   #-------------------------------------------------------------
 
   test_2: 
-        li x1, ((0x00000000) & ((1 << (32 - 1) << 1) - 1)); 
-        nop; nop; nop; nop; 
-        li x2, ((0x00000000) & ((1 << (32 - 1) << 1) - 1)); 
-        nop; nop; nop; nop; 
-        add x30, x1, x2;; 
-        nop; nop; nop; nop; 
-        li x29, ((0x00000000) & ((1 << (32 - 1) << 1) - 1)); 
-        nop; nop; nop; nop; 
-        li gp, 2; 
-        nop; nop; nop; nop; 
-        bne x30, x29, fail;;
-        nop; nop; nop; nop; 
+        li x1, ((0x00000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0x00000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0x00000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 2; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
   test_3: 
-        li x1, ((0x00000001) & ((1 << (32 - 1) << 1) - 1)); 
-        nop; nop; nop; nop; 
-        li x2, ((0x00000001) & ((1 << (32 - 1) << 1) - 1)); 
-        nop; nop; nop; nop; 
-        add x30, x1, x2;; 
-        nop; nop; nop; nop; 
-        li x29, ((0x00000002) & ((1 << (32 - 1) << 1) - 1)); 
-        nop; nop; nop; nop; 
-        li gp, 3; 
-        nop; nop; nop; nop; 
-        bne x30, x29, fail;;
-        nop; nop; nop; nop; 
-  test_4: li x1, ((0x00000003) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0x00000007) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0x0000000a) & ((1 << (32 - 1) << 1) - 1)); li gp, 4; bne x30, x29, fail;;
+        li x1, ((0x00000001) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0x00000001) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0x00000002) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 3; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
+  test_4: 
+        li x1, ((0x00000003) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0x00000007) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0x0000000a) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 4; bne x30, x29, fail;; nop; nop; nop; nop; 
 
-  test_5: li x1, ((0x0000000000000000) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0xffffffffffff8000) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0xffffffffffff8000) & ((1 << (32 - 1) << 1) - 1)); li gp, 5; bne x30, x29, fail;;
-  test_6: li x1, ((0xffffffff80000000) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0x00000000) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0xffffffff80000000) & ((1 << (32 - 1) << 1) - 1)); li gp, 6; bne x30, x29, fail;;
-  test_7: li x1, ((0xffffffff80000000) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0xffffffffffff8000) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0xffffffff7fff8000) & ((1 << (32 - 1) << 1) - 1)); li gp, 7; bne x30, x29, fail;;
+  test_5: 
+        li x1, ((0x0000000000000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0xffffffffffff8000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0xffffffffffff8000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 5; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
+  test_6: 
+        li x1, ((0xffffffff80000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0x00000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0xffffffff80000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 6; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
+  test_7: 
+        li x1, ((0xffffffff80000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0xffffffffffff8000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0xffffffff7fff8000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 7; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
 
-  test_8: li x1, ((0x0000000000000000) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0x0000000000007fff) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0x0000000000007fff) & ((1 << (32 - 1) << 1) - 1)); li gp, 8; bne x30, x29, fail;;
-  test_9: li x1, ((0x000000007fffffff) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0x0000000000000000) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0x000000007fffffff) & ((1 << (32 - 1) << 1) - 1)); li gp, 9; bne x30, x29, fail;;
-  test_10: li x1, ((0x000000007fffffff) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0x0000000000007fff) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0x0000000080007ffe) & ((1 << (32 - 1) << 1) - 1)); li gp, 10; bne x30, x29, fail;;
+  test_8: 
+        li x1, ((0x0000000000000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0x0000000000007fff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0x0000000000007fff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 8; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
+  test_9: 
+        li x1, ((0x000000007fffffff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0x0000000000000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0x000000007fffffff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 9; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
+  test_10: 
+        li x1, ((0x000000007fffffff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0x0000000000007fff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0x0000000080007ffe) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 10; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
 
-  test_11: li x1, ((0xffffffff80000000) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0x0000000000007fff) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0xffffffff80007fff) & ((1 << (32 - 1) << 1) - 1)); li gp, 11; bne x30, x29, fail;;
-  test_12: li x1, ((0x000000007fffffff) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0xffffffffffff8000) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0x000000007fff7fff) & ((1 << (32 - 1) << 1) - 1)); li gp, 12; bne x30, x29, fail;;
+  test_11: 
+        li x1, ((0xffffffff80000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0x0000000000007fff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0xffffffff80007fff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 11; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
+  test_12: 
+        li x1, ((0x000000007fffffff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0xffffffffffff8000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0x000000007fff7fff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 12; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
 
-  test_13: li x1, ((0x0000000000000000) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0xffffffffffffffff) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0xffffffffffffffff) & ((1 << (32 - 1) << 1) - 1)); li gp, 13; bne x30, x29, fail;;
-  test_14: li x1, ((0xffffffffffffffff) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0x0000000000000001) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0x0000000000000000) & ((1 << (32 - 1) << 1) - 1)); li gp, 14; bne x30, x29, fail;;
-  test_15: li x1, ((0xffffffffffffffff) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0xffffffffffffffff) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0xfffffffffffffffe) & ((1 << (32 - 1) << 1) - 1)); li gp, 15; bne x30, x29, fail;;
+  test_13: 
+        li x1, ((0x0000000000000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0xffffffffffffffff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0xffffffffffffffff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 13; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
+  test_14: 
+        li x1, ((0xffffffffffffffff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0x0000000000000001) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0x0000000000000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 14; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
+  test_15: 
+        li x1, ((0xffffffffffffffff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0xffffffffffffffff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0xfffffffffffffffe) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 15; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
 
-  test_16: li x1, ((0x0000000000000001) & ((1 << (32 - 1) << 1) - 1)); li x2, ((0x000000007fffffff) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2;; li x29, ((0x0000000080000000) & ((1 << (32 - 1) << 1) - 1)); li gp, 16; bne x30, x29, fail;;
+  test_16: 
+        li x1, ((0x0000000000000001) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((0x000000007fffffff) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x30, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((0x0000000080000000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 16; nop; nop; nop; nop; 
+        bne x30, x29, fail;; nop; nop; nop; nop; 
 
   #-------------------------------------------------------------
   # Source/Destination tests
   #-------------------------------------------------------------
 
-  test_17: li x1, ((13) & ((1 << (32 - 1) << 1) - 1)); li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); add x1, x1, x2;; li x29, ((24) & ((1 << (32 - 1) << 1) - 1)); li gp, 17; bne x1, x29, fail;;
-  test_18: li x1, ((14) & ((1 << (32 - 1) << 1) - 1)); li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); add x2, x1, x2;; li x29, ((25) & ((1 << (32 - 1) << 1) - 1)); li gp, 18; bne x2, x29, fail;;
-  test_19: li x1, ((13) & ((1 << (32 - 1) << 1) - 1)); add x1, x1, x1;; li x29, ((26) & ((1 << (32 - 1) << 1) - 1)); li gp, 19; bne x1, x29, fail;;
-
-  #-------------------------------------------------------------
-  # Bypassing tests
-  #-------------------------------------------------------------
-
-  test_20: li x4, 0; 1: li x1, ((13) & ((1 << (32 - 1) << 1) - 1)); li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2; addi x6, x30, 0; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((24) & ((1 << (32 - 1) << 1) - 1)); li gp, 20; bne x6, x29, fail;;
-  test_21: li x4, 0; 1: li x1, ((14) & ((1 << (32 - 1) << 1) - 1)); li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2; nop; addi x6, x30, 0; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((25) & ((1 << (32 - 1) << 1) - 1)); li gp, 21; bne x6, x29, fail;;
-  test_22: li x4, 0; 1: li x1, ((15) & ((1 << (32 - 1) << 1) - 1)); li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2; nop; nop; addi x6, x30, 0; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((26) & ((1 << (32 - 1) << 1) - 1)); li gp, 22; bne x6, x29, fail;;
-
-  test_23: li x4, 0; 1: li x1, ((13) & ((1 << (32 - 1) << 1) - 1)); li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((24) & ((1 << (32 - 1) << 1) - 1)); li gp, 23; bne x30, x29, fail;;
-  test_24: li x4, 0; 1: li x1, ((14) & ((1 << (32 - 1) << 1) - 1)); li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); nop; add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((25) & ((1 << (32 - 1) << 1) - 1)); li gp, 24; bne x30, x29, fail;;
-  test_25: li x4, 0; 1: li x1, ((15) & ((1 << (32 - 1) << 1) - 1)); li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); nop; nop; add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((26) & ((1 << (32 - 1) << 1) - 1)); li gp, 25; bne x30, x29, fail;;
-  test_26: li x4, 0; 1: li x1, ((13) & ((1 << (32 - 1) << 1) - 1)); nop; li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((24) & ((1 << (32 - 1) << 1) - 1)); li gp, 26; bne x30, x29, fail;;
-  test_27: li x4, 0; 1: li x1, ((14) & ((1 << (32 - 1) << 1) - 1)); nop; li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); nop; add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((25) & ((1 << (32 - 1) << 1) - 1)); li gp, 27; bne x30, x29, fail;;
-  test_28: li x4, 0; 1: li x1, ((15) & ((1 << (32 - 1) << 1) - 1)); nop; nop; li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((26) & ((1 << (32 - 1) << 1) - 1)); li gp, 28; bne x30, x29, fail;;
-
-  test_29: li x4, 0; 1: li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); li x1, ((13) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((24) & ((1 << (32 - 1) << 1) - 1)); li gp, 29; bne x30, x29, fail;;
-  test_30: li x4, 0; 1: li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); li x1, ((14) & ((1 << (32 - 1) << 1) - 1)); nop; add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((25) & ((1 << (32 - 1) << 1) - 1)); li gp, 30; bne x30, x29, fail;;
-  test_31: li x4, 0; 1: li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); li x1, ((15) & ((1 << (32 - 1) << 1) - 1)); nop; nop; add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((26) & ((1 << (32 - 1) << 1) - 1)); li gp, 31; bne x30, x29, fail;;
-  test_32: li x4, 0; 1: li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); nop; li x1, ((13) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((24) & ((1 << (32 - 1) << 1) - 1)); li gp, 32; bne x30, x29, fail;;
-  test_33: li x4, 0; 1: li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); nop; li x1, ((14) & ((1 << (32 - 1) << 1) - 1)); nop; add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((25) & ((1 << (32 - 1) << 1) - 1)); li gp, 33; bne x30, x29, fail;;
-  test_34: li x4, 0; 1: li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); nop; nop; li x1, ((15) & ((1 << (32 - 1) << 1) - 1)); add x30, x1, x2; addi x4, x4, 1; li x5, 2; bne x4, x5, 1b; li x29, ((26) & ((1 << (32 - 1) << 1) - 1)); li gp, 34; bne x30, x29, fail;;
-
-  test_35: li x1, ((15) & ((1 << (32 - 1) << 1) - 1)); add x2, x0, x1;; li x29, ((15) & ((1 << (32 - 1) << 1) - 1)); li gp, 35; bne x2, x29, fail;;
-  test_36: li x1, ((32) & ((1 << (32 - 1) << 1) - 1)); add x2, x1, x0;; li x29, ((32) & ((1 << (32 - 1) << 1) - 1)); li gp, 36; bne x2, x29, fail;;
-  test_37: add x1, x0, x0;; li x29, ((0) & ((1 << (32 - 1) << 1) - 1)); li gp, 37; bne x1, x29, fail;;
-  test_38: li x1, ((16) & ((1 << (32 - 1) << 1) - 1)); li x2, ((30) & ((1 << (32 - 1) << 1) - 1)); add x0, x1, x2;; li x29, ((0) & ((1 << (32 - 1) << 1) - 1)); li gp, 38; bne x0, x29, fail;;
+  test_17: 
+        li x1, ((13) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x1, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((24) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 17; nop; nop; nop; nop; 
+        bne x1, x29, fail;; nop; nop; nop; nop; 
+  test_18: 
+        li x1, ((14) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li x2, ((11) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x2, x1, x2;; nop; nop; nop; nop; 
+        li x29, ((25) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 18; nop; nop; nop; nop; 
+        bne x2, x29, fail;; nop; nop; nop; nop; 
+  test_19: 
+        li x1, ((13) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        add x1, x1, x1;; nop; nop; nop; nop; 
+        li x29, ((26) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop; 
+        li gp, 19; nop; nop; nop; nop; 
+        bne x1, x29, fail;; nop; nop; nop; nop; 
 
 #addi.S
   #-------------------------------------------------------------
