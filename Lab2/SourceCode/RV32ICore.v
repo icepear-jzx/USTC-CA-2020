@@ -411,6 +411,7 @@ module RV32ICore(
         .wb_select(wb_select_EX),
         .reg_write_en_MEM(reg_write_en_MEM),
         .reg_write_en_WB(reg_write_en_WB),
+        .cache_write_en(cache_write_en_EX),
         .alu_src1(alu_src1_EX),
         .alu_src2(alu_src2_EX),
         .flushF(flushF),
