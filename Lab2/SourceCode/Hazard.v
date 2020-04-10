@@ -64,37 +64,83 @@ module HarzardUnit(
 
     // TODO: Complete this module
 
-    always@(*) 
-    begin
-        if (rst) 
-        begin
-            flushF <= 1'b1;
-            bubbleF <= 1'b0;
-            flushD <= 1'b1;
-            bubbleD <= 1'b0;
-            flushE <= 1'b1;
-            bubbleE <= 1'b0;
-            flushM <= 1'b1;
-            bubbleM <= 1'b0;
-            flushW <= 1'b1;
-            bubbleW <= 1'b0;
+    always @(*) begin
+        if (rst) begin // reset
+            flushF <= 1;
+            bubbleF <= 0;
+            flushD <= 1;
+            bubbleD <= 0;
+            flushE <= 1;
+            bubbleE <= 0;
+            flushM <= 1;
+            bubbleM <= 0;
+            flushW <= 1;
+            bubbleW <= 0;
+            op1_sel <= 2'b11;
+            op2_sel <= 2'b11;
+            reg2_sel <= 2'b11;
         end
-        else
-        begin
-            flushF <= 1'b0;
-            bubbleF <= 1'b0;
-            flushD <= 1'b0;
-            bubbleD <= 1'b0;
-            flushE <= 1'b0;
-            bubbleE <= 1'b0;
-            flushM <= 1'b0;
-            bubbleM <= 1'b0;
-            flushW <= 1'b0;
-            bubbleW <= 1'b0;
-        end
+        else begin
+            flushF <= 0;
+            flushD <= 0;
+            flushE <= 0;
+            flushM <= 0;
+            flushW <= 0;
+            bubbleF <= 0;
+            bubbleD <= 0;
+            bubbleE <= 0;
+            bubbleM <= 0;
+            bubbleW <= 0;
 
-        op1_sel <= (alu_src1) ? 2'b10 : 2'b11;
-        op2_sel <= (alu_src2 == 2'b01) ? 2'b10 : 2'b11;
-    end
+            if (wb_select == 1 && ((reg_dstE == reg1_srcD) || (reg_dstE == reg2_srcD)) && reg_dstE != 5'b0) begin
+                // load后立刻使用load的结果 raw 无法转发解决 必须bubble
+                flushE <= 1;
+                bubbleF <= 1;
+                bubbleD <= 1;
+            end
+            else if (jalr | br) begin // EX段
+                flushD <= 1;
+                flushE <= 1;
+            end
+            else if (jal) begin // ID段
+                flushD <= 1;
+            end
+
+            // forward reg1 op1_sel: ALU的操作数1来源：2'b00表示来自ALU转发数据，2'b01表示来自write back data转发，2'b10表示来自PC，2'b11表示来自reg1
+            if (reg_dstM == reg1_srcE && reg_write_en_MEM == 1 && src_reg_en[1] == 1 && reg_dstM != 5'b0) begin
+                op1_sel = 2'b00;
+            end
+            else if (reg_dstW == reg1_srcE && reg_write_en_WB == 1 && src_reg_en[1] == 1 && reg_dstW != 5'b0) begin
+                op1_sel = 2'b01;
+            end
+            else begin
+                op1_sel = alu_src1 ? 2'b10 : 2'b11;
+            end
+
+            //forward reg2 , op2_sel: ALU的操作数2来源：2'b00表示来自ALU转发数据，2'b01表示来自write back data转发，2'b10表示来自reg2地址，2'b11表示来自reg2或立即数
+            if (reg_dstM == reg2_srcE && reg_write_en_MEM == 1 & src_reg_en[0] == 1 && reg_dstM != 5'b0) begin
+                op2_sel = 2'b00;
+            end
+            else if (reg_dstW == reg2_srcE && reg_write_en_WB == 1 & src_reg_en[0] == 1 && reg_dstW != 5'b0) begin
+                op2_sel = 2'b01;
+            end
+            else begin
+                op2_sel = (alu_src2 == 2'b01) ? 2'b10 : 2'b11;
+            end
+
+            // reg2_sel:reg2的来源
+            if (src_reg_en[0]) begin
+                if (reg2_srcE != 5'b0 && reg_dstM != 5'b0 && reg_write_en_MEM && reg2_srcE == reg_dstM) begin
+                    reg2_sel <= 2'h0;
+                end else if (reg2_srcE != 5'b0 && reg_dstW != 5'b0 && reg_write_en_WB && reg2_srcE == reg_dstW) begin
+                    reg2_sel <= 2'h1;
+                end else begin
+                    reg2_sel <= 2'h2;
+                end
+            end else begin
+                reg2_sel <= 2'h2;
+            end
+        end
+    end     
 
 endmodule
