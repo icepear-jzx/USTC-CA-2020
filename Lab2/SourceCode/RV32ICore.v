@@ -27,9 +27,11 @@ module RV32ICore(
     input wire [ 3:0] CPU_Debug_InstCache_WE2,
     output wire [31:0] CPU_Debug_InstCache_RD2,
     output wire [31:0] CPU_Debug_PC,
+    output wire [31:0] CPU_Debug_Inst,
     output wire [31:0] CPU_Debug_ALU_op1,
     output wire [31:0] CPU_Debug_ALU_op2,
-    output wire [31:0] CPU_Debug_ALU_out
+    output wire [31:0] CPU_Debug_ALU_out,
+    output wire [31:0] CPU_Debug_Reg3
     );
 	//wire values definitions
     wire bubbleF, flushF, bubbleD, flushD, bubbleE, flushE, bubbleM, flushM, bubbleW, flushW;
@@ -45,6 +47,7 @@ module RV32ICore(
     wire [31:0] data_WB;
     wire [31:0] reg1, reg1_EX;
     wire [31:0] reg2, reg2_EX, reg2_MEM;
+    wire [31:0] reg3;
     wire [31:0] op2;
     wire [31:0] reg_or_imm;
     wire op2_src;
@@ -65,7 +68,12 @@ module RV32ICore(
     wire [1:0] op1_sel, op2_sel, reg2_sel;
 
 
-    assign CPU_Debug_PC = NPC;
+    assign CPU_Debug_PC = PC_IF;
+    assign CPU_Debug_Inst = inst_ID;
+    assign CPU_Debug_ALU_op1 = ALU_op1;
+    assign CPU_Debug_ALU_op2 = ALU_op2;
+    assign CPU_Debug_ALU_out = ALU_out;
+    assign CPU_Debug_Reg3 = reg3;
 
     // Adder to compute PC + 4
     assign PC_4 = PC_IF + 4;
@@ -163,7 +171,8 @@ module RV32ICore(
         .wb_addr(reg_dest_WB),
         .wb_data(data_WB),
         .reg1(reg1),
-        .reg2(reg2)
+        .reg2(reg2),
+        .reg3(reg3)
     );
 
 
