@@ -26,7 +26,10 @@ module RV32ICore(
     input wire [31:0] CPU_Debug_InstCache_WD2,
     input wire [ 3:0] CPU_Debug_InstCache_WE2,
     output wire [31:0] CPU_Debug_InstCache_RD2,
-    output wire [31:0] CPU_Debug_PC
+    output wire [31:0] CPU_Debug_PC,
+    output wire [31:0] CPU_Debug_ALU_op1,
+    output wire [31:0] CPU_Debug_ALU_op2,
+    output wire [31:0] CPU_Debug_ALU_out
     );
 	//wire values definitions
     wire bubbleF, flushF, bubbleD, flushD, bubbleE, flushE, bubbleM, flushM, bubbleW, flushW;

@@ -32,6 +32,9 @@ module testBench(
     reg [3:0] CPU_Debug_InstCache_WE2;
     wire [31:0] CPU_Debug_InstCache_RD2;
     wire [31:0] CPU_Debug_PC;
+    wire [31:0] CPU_Debug_ALU_op1;
+    wire [31:0] CPU_Debug_ALU_op2;
+    wire [31:0] CPU_Debug_ALU_out;
     //generate clock signal
     always #1 CPU_CLK = ~CPU_CLK;
     // Connect the CPU core
@@ -46,7 +49,10 @@ module testBench(
         .CPU_Debug_InstCache_WD2(CPU_Debug_InstCache_WD2),
         .CPU_Debug_InstCache_WE2(CPU_Debug_InstCache_WE2),
         .CPU_Debug_InstCache_RD2(CPU_Debug_InstCache_RD2),
-        .CPU_Debug_PC(CPU_Debug_PC)
+        .CPU_Debug_PC(CPU_Debug_PC),
+        .CPU_Debug_ALU_op1(CPU_Debug_ALU_op1),
+        .CPU_Debug_ALU_op2(CPU_Debug_ALU_op2),
+        .CPU_Debug_ALU_out(CPU_Debug_ALU_out)
         );
     //define file handles
     integer LoadDataCacheFile;
