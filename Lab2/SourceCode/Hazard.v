@@ -131,7 +131,7 @@ module HarzardUnit(
             end
 
             // reg2_sel:reg2的来源
-            if (src_reg_en[0] && cache_write_en) begin
+            if (src_reg_en[0]) begin
                 if (reg2_srcE != 5'b0 && reg_dstM != 5'b0 && reg_write_en_MEM && reg2_srcE == reg_dstM) begin
                     reg2_sel <= 2'h0;
                 end else if (reg2_srcE != 5'b0 && reg_dstW != 5'b0 && reg_write_en_WB && reg2_srcE == reg_dstW) begin
