@@ -57,7 +57,7 @@ module HarzardUnit(
     input wire wb_select,
     input wire reg_write_en_MEM,
     input wire reg_write_en_WB,
-    input wire cache_write_en,
+    input wire [3:0] cache_write_en,
     input wire alu_src1,
     input wire [1:0] alu_src2,
     output reg flushF, bubbleF, flushD, bubbleD, flushE, bubbleE, flushM, bubbleM, flushW, bubbleW,
@@ -120,10 +120,10 @@ module HarzardUnit(
             end
 
             //forward reg2 , op2_sel: ALU的操作数2来源：2'b00表示来自ALU转发数据，2'b01表示来自write back data转发，2'b10表示来自reg2地址，2'b11表示来自reg2或立即数
-            if (reg_dstM == reg2_srcE && reg_write_en_MEM == 1 && src_reg_en[0] == 1 && ~cache_write_en && reg_dstM != 5'b0) begin
+            if (reg_dstM == reg2_srcE && reg_write_en_MEM == 1 && src_reg_en[0] == 1 && !cache_write_en && reg_dstM != 5'b0) begin
                 op2_sel = 2'b00;
             end
-            else if (reg_dstW == reg2_srcE && reg_write_en_WB == 1 && src_reg_en[0] == 1 && ~cache_write_en && reg_dstW != 5'b0) begin
+            else if (reg_dstW == reg2_srcE && reg_write_en_WB == 1 && src_reg_en[0] == 1 && !cache_write_en && reg_dstW != 5'b0) begin
                 op2_sel = 2'b01;
             end
             else begin
