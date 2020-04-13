@@ -31,6 +31,7 @@ module RV32ICore(
     output wire [31:0] CPU_Debug_ALU_op1,
     output wire [31:0] CPU_Debug_ALU_op2,
     output wire [31:0] CPU_Debug_ALU_out,
+    output wire [31:0] CPU_Debug_Reg2,
     output wire [31:0] CPU_Debug_Reg3
     );
 	//wire values definitions
@@ -73,6 +74,7 @@ module RV32ICore(
     assign CPU_Debug_ALU_op1 = ALU_op1;
     assign CPU_Debug_ALU_op2 = ALU_op2;
     assign CPU_Debug_ALU_out = ALU_out;
+    assign CPU_Debug_Reg2 = reg2_EX;
     assign CPU_Debug_Reg3 = reg3;
 
     // Adder to compute PC + 4

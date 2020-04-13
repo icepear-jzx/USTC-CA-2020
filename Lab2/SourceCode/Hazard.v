@@ -57,7 +57,7 @@ module HarzardUnit(
     input wire wb_select,
     input wire reg_write_en_MEM,
     input wire reg_write_en_WB,
-    input wire cache_write_en,
+    input wire [3:0] cache_write_en,
     input wire alu_src1,
     input wire [1:0] alu_src2,
     output reg flushF, bubbleF, flushD, bubbleD, flushE, bubbleE, flushM, bubbleM, flushW, bubbleW,
