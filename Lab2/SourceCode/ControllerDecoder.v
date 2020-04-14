@@ -38,7 +38,7 @@ module ControllerDecoder(
     input wire [31:0] inst,
     output wire jal,
     output wire jalr,
-    output wire csr_op2_src,
+    output wire csr_op1_src,
     output wire op1_src,
     output wire op2_src,
     output reg [1:0] Mask_func,
@@ -84,7 +84,7 @@ module ControllerDecoder(
     assign jal = op_jal;
     assign jalr = op_jalr;
 
-    assign csr_op2_src = (op_csri) ? 1 : 0;
+    assign csr_op1_src = (op_csri) ? 1 : 0;
 
     assign op1_src = ~(op_csrr | op_csri);
     assign op2_src = ~op_add;

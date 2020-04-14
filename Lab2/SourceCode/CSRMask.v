@@ -12,9 +12,9 @@ module CSRMask(
     begin
         case(Mask_func)
             `NOCSR: Mask_out <= 32'b0;
-            `CSRRW: Mask_out <= csr_op2;
+            `CSRRW: Mask_out <= csr_op1;
             `CSRRS: Mask_out <= csr_op1 | csr_op2;
-            `CSRRC: Mask_out <= csr_op1 & (~csr_op2);
+            `CSRRC: Mask_out <= (~csr_op1) & csr_op2;
         endcase
     end
 
