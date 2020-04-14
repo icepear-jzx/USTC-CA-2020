@@ -77,7 +77,7 @@ module RV32ICore(
     wire [31:0] zimm, reg1_or_zimm_ID, reg1_or_zimm_EX, csr_out_ID, csr_out_EX, csr_op1, csr_op2;
     wire [31:0] csr_data_EX, csr_data_MEM, csr_data_WB;
     wire [11:0] csr_dest_EX, csr_dest_MEM, csr_dest_WB;
-    wire [1:0] Mask_func;
+    wire [1:0] Mask_func_ID, Mask_func_EX;
 
     assign CPU_Debug_PC = PC_IF;
     assign CPU_Debug_Inst = inst_ID;
@@ -219,7 +219,7 @@ module RV32ICore(
         .csr_op1_src(csr_op1_src),
         .op1_src(op1_src),
         .op2_src(op2_src),
-        .Mask_func(Mask_func),
+        .Mask_func(Mask_func_ID),
         .ALU_func(ALU_func_ID),
         .br_type(br_type_ID),
         .load_npc(load_npc_ID),
@@ -328,11 +328,13 @@ module RV32ICore(
         .clk(CPU_CLK),
         .bubbleE(bubbleE),
         .flushE(flushE),
+        .Mask_func_ID(Mask_func_ID),
         .csr_read_en_ID(csr_read_en_ID),
         .csr_write_en_ID(csr_write_en_ID),
         .csr_dest_ID(inst_ID[31:20]),
         .csr_out_ID(csr_out_ID),
         .reg1_or_zimm_ID(reg1_or_zimm_ID),
+        .Mask_func_EX(Mask_func_EX),
         .csr_read_en_EX(csr_read_en_EX),
         .csr_write_en_EX(csr_write_en_EX),
         .csr_dest_EX(csr_dest_EX),
@@ -347,7 +349,7 @@ module RV32ICore(
     CSRMask CSRMask1(
         .csr_op1(csr_op1),
         .csr_op2(csr_op2),
-        .Mask_func(Mask_func),
+        .Mask_func(Mask_func_EX),
         .Mask_out(csr_data_EX)
     );
 
