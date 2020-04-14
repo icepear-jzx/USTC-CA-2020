@@ -78,6 +78,7 @@ module ControllerDecoder(
     wire op_csrr = (opcode == 7'b1110011 && !func3[2]) ? 1 : 0; // CSRR
     wire op_csri = (opcode == 7'b1110011 && func3[2]) ? 1 : 0; // CSRI
     wire op_csrr_sc = (op_csrr && func3[1:0] != 2'b01) ? 1 : 0; // CSRRS CSRRC
+    wire op_csrr_w = (op_csrr && func3[1:0] == 2'b01) ? 1 : 0; // CSRRW
     wire op_csri_sc = (op_csri && func3[1:0] != 2'b01) ? 1 : 0; // CSRRSI CSRRCI
     wire op_csri_w = (op_csri && func3[1:0] == 2'b01) ? 1: 0; // CSRRWI
 
@@ -187,7 +188,7 @@ module ControllerDecoder(
         else
             reg_write_en <= 1'b1;
         // csr_read_en
-        if (op_csri_w && rd == 5'b0)
+        if ((op_csri_w | op_csrr_w) && rd == 5'b0)
             csr_read_en <= 1'b0;
         else if (op_csrr | op_csri)
             csr_read_en <= 1'b1;

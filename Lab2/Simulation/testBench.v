@@ -12,8 +12,8 @@
 // !!! ALL YOU NEED TO CHANGE IS 4 FILE PATH BELOW !!!	
 //				(they are all optional, you can run cpu without change paths here,if files are failed to open, we will not dump the content to .txt and will not try to initial your bram)
 //////////////////////////////////////////////////////////////////////////////////
-`define DataCacheContentLoadPath "/home/ubuntu/USTC-CA-2020/Lab2/Simulation/2testAll.data"
-`define InstCacheContentLoadPath "/home/ubuntu/USTC-CA-2020/Lab2/Simulation/2testAll.inst"
+`define DataCacheContentLoadPath "/home/ubuntu/USTC-CA-2020/Lab2/Simulation/4testAll.data"
+`define InstCacheContentLoadPath "/home/ubuntu/USTC-CA-2020/Lab2/Simulation/4testAll.inst"
 `define DataCacheContentSavePath "/home/ubuntu/USTC-CA-2020/Lab2/Simulation/DataCacheContent.txt"
 `define InstCacheContentSavePath "/home/ubuntu/USTC-CA-2020/Lab2/Simulation/InstCacheContent.txt"
 `define BRAMWORDS 4096  //a word is 32bit, so our bram is 4096*32bit
@@ -38,6 +38,9 @@ module testBench(
     wire [31:0] ALU_out;
     wire [31:0] Reg2_EX;
     wire [31:0] Reg3_ID;
+    wire [31:0] Mask_op1;
+    wire [31:0] Mask_op2;
+    wire [31:0] Mask_out;
     //generate clock signal
     always #1 CPU_CLK = ~CPU_CLK;
     // Connect the CPU core
@@ -58,7 +61,10 @@ module testBench(
         .CPU_Debug_ALU_op2(ALU_op2),
         .CPU_Debug_ALU_out(ALU_out),
         .CPU_Debug_Reg2(Reg2_EX),
-        .CPU_Debug_Reg3(Reg3_ID)
+        .CPU_Debug_Reg3(Reg3_ID),
+        .CPU_Debug_Mask_op1(Mask_op1),
+        .CPU_Debug_Mask_op2(Mask_op2),
+        .CPU_Debug_Mask_out(Mask_out)
         );
     //define file handles
     integer LoadDataCacheFile;
