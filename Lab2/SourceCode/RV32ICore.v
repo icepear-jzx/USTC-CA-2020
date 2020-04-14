@@ -69,7 +69,7 @@ module RV32ICore(
     wire [1:0] op1_sel, op2_sel, reg2_sel;
 
     wire csr_read_en_ID, csr_read_en_EX, csr_write_en_ID, csr_write_en_EX, csr_write_en_MEM, csr_write_en_WB;
-    wire csr_op2_src;
+    wire csr_op1_src;
     wire [1:0] csr_op1_sel, csr_op2_sel;
     wire [31:0] zimm, reg1_or_zimm_ID, reg1_or_zimm_EX, csr_out_ID, csr_out_EX, csr_op1, csr_op2;
     wire [31:0] csr_data_EX, csr_data_MEM, csr_data_WB;
@@ -92,7 +92,7 @@ module RV32ICore(
     assign op2 = op2_src ? imm : reg2;
     // MUX for reg1_or_zimm_ID
     assign zimm = {27'b0, inst_ID[19:15]};
-    assign reg1_or_zimm_ID = (csr_op2_src) ? zimm : reg1;
+    assign reg1_or_zimm_ID = (csr_op1_src) ? zimm : reg1;
     // Adder to compute PC_ID + Imm - 4
     assign jal_target = PC_ID + op2 - 4;
     // MUX for ALU op1
@@ -210,7 +210,7 @@ module RV32ICore(
         .inst(inst_ID),
         .jal(jal),
         .jalr(jalr_ID),
-        .csr_op2_src(csr_op2_src),
+        .csr_op1_src(csr_op1_src),
         .op1_src(op1_src),
         .op2_src(op2_src),
         .Mask_func(Mask_func),
