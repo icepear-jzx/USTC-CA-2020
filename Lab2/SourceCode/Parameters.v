@@ -29,6 +29,11 @@
     `define SLT  4'd8
     `define SLTU  4'd9
     `define LUI  4'd10
+// Mask_func[1:0]
+    `define NOCSR  2'b00
+    `define CSRRW  2'b01
+    `define CSRRS  2'b10
+    `define CSRRC  2'b11
 // br_type[2:0]
     `define NOBRANCH  3'd0
     `define BEQ  3'd1
@@ -44,6 +49,7 @@
     `define BTYPE  3'd3
     `define UTYPE  3'd4
     `define JTYPE  3'd5  
+    `define ZTYPE  3'd6
 // load_type[2:0]  six kind of ways to save values to Register
     `define NOREGWRITE  3'b0	//	Do not write Register
     `define LB  3'd1			//	load 8bit from Mem then signed extended to 32bit

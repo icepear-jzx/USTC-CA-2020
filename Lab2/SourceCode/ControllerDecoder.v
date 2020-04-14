@@ -38,7 +38,10 @@ module ControllerDecoder(
     input wire [31:0] inst,
     output wire jal,
     output wire jalr,
+    output wire csr_op2_src,
+    output wire op1_src,
     output wire op2_src,
+    output reg [1:0] Mask_func,
     output reg [3:0] ALU_func,
     output reg [2:0] br_type,
     output wire load_npc,
@@ -46,6 +49,8 @@ module ControllerDecoder(
     output reg [2:0] load_type,
     output reg [1:0] src_reg_en,
     output reg reg_write_en,
+    output reg csr_read_en,
+    output reg csr_write_en,
     output reg [3:0] cache_write_en,
     output wire alu_src1,
     output wire [1:0] alu_src2,
@@ -56,6 +61,9 @@ module ControllerDecoder(
     
     wire [6:0] opcode = inst[6:0];
     wire [2:0] func3 = inst[14:12];
+    wire [4:0] zimm = inst[19:15];
+    wire [4:0] rs1 = inst[19:15];
+    wire [4:0] rd = inst[11:7];
 
     wire op_slli = (opcode == 7'b0010011 && func3[1:0] == 2'b01) ? 1 : 0; // SLLI SRLI SRAI
     wire op_addi = (opcode == 7'b0010011 && func3[1:0] != 2'b01) ? 1 : 0; // ADDI SLTI SLTIU XORI ORI ANDI
@@ -67,10 +75,18 @@ module ControllerDecoder(
     wire op_beq = (opcode == 7'b1100011) ? 1 : 0; // BEQ BNE BLT BGE BLTU BGEU
     wire op_lb = (opcode == 7'b0000011) ? 1 : 0; // LB LH LW LBU LHU
     wire op_sb = (opcode == 7'b0100011) ? 1 : 0; // SB SH SW
+    wire op_csrr = (opcode == 7'b1110011 && !func3[2]) ? 1 : 0; // CSRR
+    wire op_csri = (opcode == 7'b1110011 && func3[2]) ? 1 : 0; // CSRI
+    wire op_csrr_sc = (op_csrr && func3[1:0] != 2'b01) ? 1 : 0; // CSRRS CSRRC
+    wire op_csri_sc = (op_csri && func3[1:0] != 2'b01) ? 1 : 0; // CSRRSI CSRRCI
+    wire op_csri_w = (op_csri && func3[1:0] == 2'b01) ? 1: 0; // CSRRWI
 
     assign jal = op_jal;
     assign jalr = op_jalr;
 
+    assign csr_op2_src = (op_csri) ? 1 : 0;
+
+    assign op1_src = ~(op_csrr | op_csri);
     assign op2_src = ~op_add;
 
     assign load_npc = op_jal | op_jalr;
@@ -82,6 +98,20 @@ module ControllerDecoder(
     
     always@(*) 
     begin
+        // Mask_func
+        if (op_csrr | op_csri) 
+        begin
+            case (func3[1:0])
+                2'b00: Mask_func <= `NOCSR;
+                2'b01: Mask_func <= `CSRRW;
+                2'b10: Mask_func <= `CSRRS;
+                2'b11: Mask_func <= `CSRRC;
+            endcase
+        end
+        else
+        begin
+            Mask_func <= `NOCSR;
+        end
         // ALU_func
         if (op_slli | op_addi | op_add) 
         begin
@@ -147,7 +177,7 @@ module ControllerDecoder(
         // src_reg_en
         if (op_add | op_beq | op_sb)
             src_reg_en <= 2'b11;
-        else if (op_addi | op_slli | op_jalr | op_lb)
+        else if (op_addi | op_slli | op_jalr | op_lb | op_csrr)
             src_reg_en <= 2'b10;
         else
             src_reg_en <= 2'b00;
@@ -156,6 +186,20 @@ module ControllerDecoder(
             reg_write_en <= 1'b0;
         else
             reg_write_en <= 1'b1;
+        // csr_read_en
+        if (op_csri_w && rd == 5'b0)
+            csr_read_en <= 1'b0;
+        else if (op_csrr | op_csri)
+            csr_read_en <= 1'b1;
+        else
+            csr_read_en <= 1'b0;
+        // csr_write_en
+        if ((op_csrr_sc && rs1 == 0) || (op_csri_sc && zimm == 0))
+            csr_write_en <= 1'b0;
+        else if (op_csrr | op_scri)
+            csr_write_en <= 1'b1;
+        else
+            csr_write_en <= 1'b0;
         // cache_write_en
         if (op_sb)
         begin
@@ -183,6 +227,8 @@ module ControllerDecoder(
             imm_type <= `UTYPE;
         else if (op_jal)
             imm_type <= `JTYPE;
+        else if (op_csrr | op_csri)
+            imm_type <= `ZTYPE;
         else
             imm_type <= `RTYPE;
     end

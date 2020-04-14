@@ -52,16 +52,20 @@
 module HarzardUnit(
     input wire rst,
     input wire [4:0] reg1_srcD, reg2_srcD, reg1_srcE, reg2_srcE, reg_dstE, reg_dstM, reg_dstW,
+    input wire [11:0] csr_dstE, csr_dstM, csr_dstW,
     input wire br, jalr, jal,
     input wire [1:0] src_reg_en,
+    input wire csr_read_en,
     input wire wb_select,
     input wire reg_write_en_MEM,
     input wire reg_write_en_WB,
+    input wire csr_write_en_MEM,
+    input wire csr_write_en_WB,
     input wire [3:0] cache_write_en,
     input wire alu_src1,
     input wire [1:0] alu_src2,
     output reg flushF, bubbleF, flushD, bubbleD, flushE, bubbleE, flushM, bubbleM, flushW, bubbleW,
-    output reg [1:0] op1_sel, op2_sel, reg2_sel
+    output reg [1:0] op1_sel, op2_sel, reg2_sel, csr_op1_sel, csr_op2_sel
     );
 
     // TODO: Complete this module
@@ -144,25 +148,39 @@ module HarzardUnit(
             end
             // op1_sel
             if (reg_dstM && reg_dstM == reg1_srcE && reg_write_en_MEM && src_reg_en[1])
-                op1_sel = 2'b00;
+                op1_sel <= 2'b00;
             else if (reg_dstW && reg_dstW == reg1_srcE && reg_write_en_WB && src_reg_en[1])
-                op1_sel = 2'b01;
+                op1_sel <= 2'b01;
             else
-                op1_sel = (alu_src1) ? 2'b10 : 2'b11;
+                op1_sel <= (alu_src1) ? 2'b10 : 2'b11;
             // op2_sel
             if (reg_dstM && reg_dstM == reg2_srcE && reg_write_en_MEM && src_reg_en[0] && !cache_write_en)
-                op2_sel = 2'b00;
+                op2_sel <= 2'b00;
             else if (reg_dstM && reg_dstW == reg2_srcE && reg_write_en_WB && src_reg_en[0] && !cache_write_en)
-                op2_sel = 2'b01;
+                op2_sel <= 2'b01;
             else
-                op2_sel = (alu_src2 == 2'b01) ? 2'b10 : 2'b11;
+                op2_sel <= (alu_src2 == 2'b01) ? 2'b10 : 2'b11;
             // reg2_sel
             if (reg_dstM && reg2_srcE == reg_dstM && reg_write_en_MEM && src_reg_en[0])
-                reg2_sel <= 2'h0;
+                reg2_sel <= 2'b00;
             else if (reg_dstW && reg2_srcE == reg_dstW && reg_write_en_WB && src_reg_en[0])
-                reg2_sel <= 2'h1;
+                reg2_sel <= 2'b01;
             else
-                reg2_sel <= 2'h2;
+                reg2_sel <= 2'b10;
+            // csr_op1_sel
+            if (reg_dstM && reg_dstM == reg1_srcE && reg_write_en_MEM && src_reg_en[1])
+                csr_op1_sel <= 2'b00;
+            else if (reg_dstW && reg_dstW == reg1_srcE && reg_write_en_WB && src_reg_en[1])
+                csr_op1_sel <= 2'b01;
+            else
+                csr_op1_sel <= 2'b10 ;
+            // csr_op2_sel
+            if (csr_dstM == csr_dstE && csr_write_en_MEM && csr_read_en)
+                csr_op2_sel <= 2'b00;
+            else if (csr_dstW == csr_dstE && csr_write_en_WB && csr_read_en)
+                csr_op2_sel <= 2'b01;
+            else
+                csr_op2_sel <= 2'b10 ;
         end
     end     
 
