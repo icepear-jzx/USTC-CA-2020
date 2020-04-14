@@ -196,7 +196,7 @@ module ControllerDecoder(
         // csr_write_en
         if ((op_csrr_sc && rs1 == 0) || (op_csri_sc && zimm == 0))
             csr_write_en <= 1'b0;
-        else if (op_csrr | op_scri)
+        else if (op_csrr | op_csri)
             csr_write_en <= 1'b1;
         else
             csr_write_en <= 1'b0;

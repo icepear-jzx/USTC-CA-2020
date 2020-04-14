@@ -116,10 +116,10 @@ module RV32ICore(
 
     // MUX for csr op1
     assign csr_op1 = (csr_op1_sel == 2'h0) ? result_MEM : 
-                                        ((csr_op1_sel == 2'h1) ? data_WB : reg1_or_zimm_EX) 
+                                        ((csr_op1_sel == 2'h1) ? data_WB : reg1_or_zimm_EX);
     // MUX for csr op2
     assign csr_op2 = (csr_op2_sel == 2'h0) ? csr_data_MEM : 
-                                        ((csr_op2_sel == 2'h1) ? csr_data_WB : csr_out_EX) 
+                                        ((csr_op2_sel == 2'h1) ? csr_data_WB : csr_out_EX);
 
 
     //Module connections
@@ -198,12 +198,12 @@ module RV32ICore(
     CSRFile CSRFile1(
         .clk(CPU_CLK),
         .rst(CPU_RST),
-        .read_en(csr_read_en_ID)
+        .read_en(csr_read_en_ID),
         .write_en(csr_write_en_WB),
         .addr(inst_ID[31:20]),
         .wb_addr(csr_dest_WB),
         .wb_data(csr_data_WB),
-        .csr_out(csr_out)
+        .csr_out(csr_out_ID)
     );
 
     ControllerDecoder ControllerDecoder1(
