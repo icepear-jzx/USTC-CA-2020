@@ -62,10 +62,11 @@ module HarzardUnit(
     input wire csr_write_en_MEM,
     input wire csr_write_en_WB,
     input wire [3:0] cache_write_en,
-    input wire alu_src1,
+    input wire [1:0] alu_src1,
     input wire [1:0] alu_src2,
     output reg flushF, bubbleF, flushD, bubbleD, flushE, bubbleE, flushM, bubbleM, flushW, bubbleW,
-    output reg [1:0] op1_sel, op2_sel, reg2_sel, csr_op1_sel, csr_op2_sel
+    output reg [2:0] op1_sel,
+    output reg [1:0] op2_sel, reg2_sel, csr_op1_sel, csr_op2_sel
     );
 
     // TODO: Complete this module
@@ -147,12 +148,26 @@ module HarzardUnit(
                 flushW <= 0;
             end
             // op1_sel
-            if (reg_dstM && reg_dstM == reg1_srcE && reg_write_en_MEM && src_reg_en[1])
-                op1_sel <= 2'b00;
-            else if (reg_dstW && reg_dstW == reg1_srcE && reg_write_en_WB && src_reg_en[1])
-                op1_sel <= 2'b01;
+            if (alu_src1 == 2'b00)
+            begin
+                if (reg_dstM && reg_dstM == reg1_srcE && reg_write_en_MEM && src_reg_en[1])
+                    op1_sel <= 3'h0;
+                else if (reg_dstW && reg_dstW == reg1_srcE && reg_write_en_WB && src_reg_en[1])
+                    op1_sel <= 3'h1;
+                else
+                    op1_sel <= 3'h3;
+            end
+            else if (alu_src1 == 2'b01)
+                op1_sel <= 3'h2;
             else
-                op1_sel <= (alu_src1) ? 2'b10 : 2'b11;
+            begin
+                if (csr_dstM == csr_dstE && csr_write_en_MEM && csr_read_en)
+                    op1_sel <= 3'h4;
+                else if (csr_dstW == csr_dstE && csr_write_en_WB && csr_read_en)
+                    op1_sel <= 3'h5;
+                else
+                    op1_sel <= 3'h3;
+            end
             // op2_sel
             if (reg_dstM && reg_dstM == reg2_srcE && reg_write_en_MEM && src_reg_en[0] && !cache_write_en)
                 op2_sel <= 2'b00;

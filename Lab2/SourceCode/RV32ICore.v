@@ -62,14 +62,15 @@ module RV32ICore(
     wire [2:0] load_type_ID, load_type_EX, load_type_MEM;
     wire [1:0] src_reg_en_ID, src_reg_en_EX;
     wire [3:0] cache_write_en_ID, cache_write_en_EX, cache_write_en_MEM;
-    wire alu_src1_ID, alu_src1_EX;
+    wire [1:0] alu_src1_ID, alu_src1_EX;
     wire [1:0] alu_src2_ID, alu_src2_EX;
     wire [2:0] imm_type;
     wire [31:0] imm;
     wire [31:0] ALU_op1, ALU_op2, ALU_out;
     wire [31:0] dealt_reg2;
     wire [31:0] result, result_MEM;
-    wire [1:0] op1_sel, op2_sel, reg2_sel;
+    wire [2:0] op1_sel;
+    wire [1:0] op2_sel, reg2_sel;
 
     wire csr_read_en_ID, csr_read_en_EX, csr_write_en_ID, csr_write_en_EX, csr_write_en_MEM, csr_write_en_WB;
     wire csr_op1_src;
@@ -102,10 +103,11 @@ module RV32ICore(
     // Adder to compute PC_ID + Imm - 4
     assign jal_target = PC_ID + op2 - 4;
     // MUX for ALU op1
-    assign ALU_op1 = (op1_sel == 2'h0) ? result_MEM :
-                                         ((op1_sel == 2'h1) ? data_WB :
-                                                              (op1_sel == 2'h2) ? (PC_EX - 4) :
-                                                                                  reg1_EX);
+    assign ALU_op1 = (op1_sel == 3'h0) ? result_MEM :
+                            ((op1_sel == 3'h1) ? data_WB :
+                                (op1_sel == 3'h2) ? (PC_EX - 4) :
+                                    (op1_sel == 3'h3) ? reg1_EX :
+                                        (op1_sel == 3'h4) ? csr_data_MEM : csr_data_WB);
     // MUX for ALU op2
     assign ALU_op2 = (op2_sel == 2'h0) ? result_MEM :
                                          ((op2_sel == 2'h1) ? data_WB :

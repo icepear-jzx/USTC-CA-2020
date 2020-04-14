@@ -27,7 +27,7 @@ module CSRFile(
     always@(negedge clk or posedge rst) 
     begin 
         if (rst)
-            for (i = 0; i < 32; i = i + 1) 
+            for (i = 0; i < 4096; i = i + 1) 
                 reg_file[i][31:0] <= 32'b0;
         else if(write_en)
             reg_file[wb_addr] <= wb_data;   

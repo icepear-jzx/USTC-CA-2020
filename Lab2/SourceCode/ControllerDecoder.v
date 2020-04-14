@@ -52,7 +52,7 @@ module ControllerDecoder(
     output reg csr_read_en,
     output reg csr_write_en,
     output reg [3:0] cache_write_en,
-    output wire alu_src1,
+    output wire [1:0] alu_src1,
     output wire [1:0] alu_src2,
     output reg [2:0] imm_type
     );
@@ -94,7 +94,7 @@ module ControllerDecoder(
 
     assign wb_select = op_lb;
 
-    assign alu_src1 = op_auipc;
+    assign alu_src1 = (op_auipc)? 2'b01 : ((op_csrr | op_csri) ? 2'b10 : 2'b00);
     assign alu_src2 = (op_add) ? 2'b00 : ((op_slli) ? 2'b01 : 2'b10);
     
     always@(*) 
