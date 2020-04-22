@@ -38,9 +38,6 @@ module testBench(
     wire [31:0] ALU_out;
     wire [31:0] Reg2_EX;
     wire [31:0] Reg3_ID;
-    wire [31:0] Mask_op1;
-    wire [31:0] Mask_op2;
-    wire [31:0] Mask_out;
     //generate clock signal
     always #1 CPU_CLK = ~CPU_CLK;
     // Connect the CPU core
@@ -61,10 +58,7 @@ module testBench(
         .CPU_Debug_ALU_op2(ALU_op2),
         .CPU_Debug_ALU_out(ALU_out),
         .CPU_Debug_Reg2(Reg2_EX),
-        .CPU_Debug_Reg3(Reg3_ID),
-        .CPU_Debug_Mask_op1(Mask_op1),
-        .CPU_Debug_Mask_op2(Mask_op2),
-        .CPU_Debug_Mask_out(Mask_out)
+        .CPU_Debug_Reg3(Reg3_ID)
         );
     //define file handles
     integer LoadDataCacheFile;

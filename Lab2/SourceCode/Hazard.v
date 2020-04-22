@@ -171,7 +171,7 @@ module HarzardUnit(
             // op2_sel
             if (reg_dstM && reg_dstM == reg2_srcE && reg_write_en_MEM && src_reg_en[0] && !cache_write_en)
                 op2_sel <= 2'b00;
-            else if (reg_dstM && reg_dstW == reg2_srcE && reg_write_en_WB && src_reg_en[0] && !cache_write_en)
+            else if (reg_dstW && reg_dstW == reg2_srcE && reg_write_en_WB && src_reg_en[0] && !cache_write_en)
                 op2_sel <= 2'b01;
             else
                 op2_sel <= (alu_src2 == 2'b01) ? 2'b10 : 2'b11;
