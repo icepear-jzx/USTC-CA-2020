@@ -604,7 +604,7 @@ Disassembly of section .text:
    10928:	00000013          	nop
    1092c:	00000013          	nop
    10930:	00002517          	auipc	a0,0x2
-   10934:	73c50513          	addi	a0,a0,1852 # 1306c <__global_pointer$+0xd64>
+   10934:	72c50513          	addi	a0,a0,1836 # 1305c <__global_pointer$+0xd54>
    10938:	00000013          	nop
    1093c:	00000013          	nop
    10940:	00000013          	nop
