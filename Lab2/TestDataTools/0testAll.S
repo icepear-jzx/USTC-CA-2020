@@ -218,7 +218,7 @@
   bne x1, x29, fail; nop; nop; nop; nop;
   test_22: 
   .align 3; nop; nop; nop; nop;
-  lla a0, 1f + 10000; nop; nop; nop; nop;
+  lla a0, 1f + (10000 - 16); nop; nop; nop; nop;
   jal a1, 1f; nop; nop; nop; nop;
   1: sub a0, a0, a1; nop; nop; nop; nop;
   li x29, ((10000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop;
