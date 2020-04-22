@@ -88,9 +88,9 @@ module HarzardUnit(
             bubbleM <= 0;
             bubbleW <= 0;
             // sel
-            op1_sel <= 2'b11;
-            op2_sel <= 2'b11;
-            reg2_sel <= 2'b11;
+            op1_sel <= 3'b011;
+            op2_sel <= 3'b011;
+            reg2_sel <= 3'b11;
         end
         else 
         begin
