@@ -211,13 +211,26 @@
   bne x30, x29, fail; nop; nop; nop; nop; 
 
   test_21: 
-  lui x30, 0x01; nop; nop; nop; nop; 
-  li x29, 0x01; nop; nop; nop; nop; 
-  li gp, 21; nop; nop; nop; nop; 
-  bne x30, x29, fail; nop; nop; nop; nop; 
+  lui x1, 0x80000; nop; nop; nop; nop;
+  sra x1,x1,20; nop; nop; nop; nop;
+  li x29, ((0xfffffffffffff800) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop;
+  li gp, 21; nop; nop; nop; nop;
+  bne x1, x29, fail; nop; nop; nop; nop;
+  test_22: 
+  .align 3; nop; nop; nop; nop;
+  lla a0, 1f + 10000; nop; nop; nop; nop;
+  jal a1, 1f; nop; nop; nop; nop;
+  1: sub a0, a0, a1; nop; nop; nop; nop;
+  li x29, ((10000) & ((1 << (32 - 1) << 1) - 1)); nop; nop; nop; nop;
+  li gp, 22; nop; nop; nop; nop;
+  bne a0, x29, fail; nop; nop; nop; nop;
+
   #-------------------------------------------------------------
 
-  bne x0, gp, pass; fail: finish2: jal x20,finish2; pass: li gp,1;finish1: jal x20,finish1
+  bne x0, gp, pass; nop; nop; nop; nop;
+  fail: finish2: jal x20,finish2; nop; nop; nop; nop;
+  pass: li gp,1; nop; nop; nop; nop;
+  finish1: jal x20,finish1; nop; nop; nop; nop;
 
 unimp
 

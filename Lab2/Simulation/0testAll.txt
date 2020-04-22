@@ -33,7 +33,7 @@ Disassembly of section .text:
    100dc:	00000013          	nop
    100e0:	00000013          	nop
    100e4:	00000013          	nop
-   100e8:	03df12e3          	bne	t5,t4,1090c <fail>
+   100e8:	0ddf1ee3          	bne	t5,t4,109c4 <fail>
    100ec:	00000013          	nop
    100f0:	00000013          	nop
    100f4:	00000013          	nop
@@ -65,7 +65,7 @@ Disassembly of section .text:
    10154:	00000013          	nop
    10158:	00000013          	nop
    1015c:	00000013          	nop
-   10160:	7bdf1663          	bne	t5,t4,1090c <fail>
+   10160:	07df12e3          	bne	t5,t4,109c4 <fail>
    10164:	00000013          	nop
    10168:	00000013          	nop
    1016c:	00000013          	nop
@@ -97,7 +97,7 @@ Disassembly of section .text:
    101cc:	00000013          	nop
    101d0:	00000013          	nop
    101d4:	00000013          	nop
-   101d8:	73df1a63          	bne	t5,t4,1090c <fail>
+   101d8:	7fdf1663          	bne	t5,t4,109c4 <fail>
    101dc:	00000013          	nop
    101e0:	00000013          	nop
    101e4:	00000013          	nop
@@ -129,7 +129,7 @@ Disassembly of section .text:
    10244:	00000013          	nop
    10248:	00000013          	nop
    1024c:	00000013          	nop
-   10250:	6bdf1e63          	bne	t5,t4,1090c <fail>
+   10250:	77df1a63          	bne	t5,t4,109c4 <fail>
    10254:	00000013          	nop
    10258:	00000013          	nop
    1025c:	00000013          	nop
@@ -161,7 +161,7 @@ Disassembly of section .text:
    102bc:	00000013          	nop
    102c0:	00000013          	nop
    102c4:	00000013          	nop
-   102c8:	65df1263          	bne	t5,t4,1090c <fail>
+   102c8:	6fdf1e63          	bne	t5,t4,109c4 <fail>
    102cc:	00000013          	nop
    102d0:	00000013          	nop
    102d4:	00000013          	nop
@@ -193,7 +193,7 @@ Disassembly of section .text:
    10334:	00000013          	nop
    10338:	00000013          	nop
    1033c:	00000013          	nop
-   10340:	5ddf1663          	bne	t5,t4,1090c <fail>
+   10340:	69df1263          	bne	t5,t4,109c4 <fail>
    10344:	00000013          	nop
    10348:	00000013          	nop
    1034c:	00000013          	nop
@@ -225,7 +225,7 @@ Disassembly of section .text:
    103ac:	00000013          	nop
    103b0:	00000013          	nop
    103b4:	00000013          	nop
-   103b8:	55df1a63          	bne	t5,t4,1090c <fail>
+   103b8:	61df1663          	bne	t5,t4,109c4 <fail>
    103bc:	00000013          	nop
    103c0:	00000013          	nop
    103c4:	00000013          	nop
@@ -257,7 +257,7 @@ Disassembly of section .text:
    10424:	00000013          	nop
    10428:	00000013          	nop
    1042c:	00000013          	nop
-   10430:	4ddf1e63          	bne	t5,t4,1090c <fail>
+   10430:	59df1a63          	bne	t5,t4,109c4 <fail>
    10434:	00000013          	nop
    10438:	00000013          	nop
    1043c:	00000013          	nop
@@ -289,7 +289,7 @@ Disassembly of section .text:
    1049c:	00000013          	nop
    104a0:	00000013          	nop
    104a4:	00000013          	nop
-   104a8:	47df1263          	bne	t5,t4,1090c <fail>
+   104a8:	51df1e63          	bne	t5,t4,109c4 <fail>
    104ac:	00000013          	nop
    104b0:	00000013          	nop
    104b4:	00000013          	nop
@@ -321,7 +321,7 @@ Disassembly of section .text:
    10514:	00000013          	nop
    10518:	00000013          	nop
    1051c:	00000013          	nop
-   10520:	3fdf1663          	bne	t5,t4,1090c <fail>
+   10520:	4bdf1263          	bne	t5,t4,109c4 <fail>
    10524:	00000013          	nop
    10528:	00000013          	nop
    1052c:	00000013          	nop
@@ -348,7 +348,7 @@ Disassembly of section .text:
    10578:	00000013          	nop
    1057c:	00000013          	nop
    10580:	00000013          	nop
-   10584:	39df1463          	bne	t5,t4,1090c <fail>
+   10584:	45df1063          	bne	t5,t4,109c4 <fail>
    10588:	00000013          	nop
    1058c:	00000013          	nop
    10590:	00000013          	nop
@@ -375,7 +375,7 @@ Disassembly of section .text:
    105dc:	00000013          	nop
    105e0:	00000013          	nop
    105e4:	00000013          	nop
-   105e8:	33df1263          	bne	t5,t4,1090c <fail>
+   105e8:	3ddf1e63          	bne	t5,t4,109c4 <fail>
    105ec:	00000013          	nop
    105f0:	00000013          	nop
    105f4:	00000013          	nop
@@ -402,7 +402,7 @@ Disassembly of section .text:
    10640:	00000013          	nop
    10644:	00000013          	nop
    10648:	00000013          	nop
-   1064c:	2ddf1063          	bne	t5,t4,1090c <fail>
+   1064c:	37df1c63          	bne	t5,t4,109c4 <fail>
    10650:	00000013          	nop
    10654:	00000013          	nop
    10658:	00000013          	nop
@@ -429,7 +429,7 @@ Disassembly of section .text:
    106a4:	00000013          	nop
    106a8:	00000013          	nop
    106ac:	00000013          	nop
-   106b0:	25df1e63          	bne	t5,t4,1090c <fail>
+   106b0:	31df1a63          	bne	t5,t4,109c4 <fail>
    106b4:	00000013          	nop
    106b8:	00000013          	nop
    106bc:	00000013          	nop
@@ -456,7 +456,7 @@ Disassembly of section .text:
    10708:	00000013          	nop
    1070c:	00000013          	nop
    10710:	00000013          	nop
-   10714:	1fdf1c63          	bne	t5,t4,1090c <fail>
+   10714:	2bdf1863          	bne	t5,t4,109c4 <fail>
    10718:	00000013          	nop
    1071c:	00000013          	nop
    10720:	00000013          	nop
@@ -483,7 +483,7 @@ Disassembly of section .text:
    1076c:	00000013          	nop
    10770:	00000013          	nop
    10774:	00000013          	nop
-   10778:	19df1a63          	bne	t5,t4,1090c <fail>
+   10778:	25df1663          	bne	t5,t4,109c4 <fail>
    1077c:	00000013          	nop
    10780:	00000013          	nop
    10784:	00000013          	nop
@@ -510,7 +510,7 @@ Disassembly of section .text:
    107d0:	00000013          	nop
    107d4:	00000013          	nop
    107d8:	00000013          	nop
-   107dc:	13df1863          	bne	t5,t4,1090c <fail>
+   107dc:	1fdf1463          	bne	t5,t4,109c4 <fail>
    107e0:	00000013          	nop
    107e4:	00000013          	nop
    107e8:	00000013          	nop
@@ -537,7 +537,7 @@ Disassembly of section .text:
    10834:	00000013          	nop
    10838:	00000013          	nop
    1083c:	00000013          	nop
-   10840:	0ddf1663          	bne	t5,t4,1090c <fail>
+   10840:	19df1263          	bne	t5,t4,109c4 <fail>
    10844:	00000013          	nop
    10848:	00000013          	nop
    1084c:	00000013          	nop
@@ -564,42 +564,101 @@ Disassembly of section .text:
    10898:	00000013          	nop
    1089c:	00000013          	nop
    108a0:	00000013          	nop
-   108a4:	07df1463          	bne	t5,t4,1090c <fail>
+   108a4:	13df1063          	bne	t5,t4,109c4 <fail>
    108a8:	00000013          	nop
    108ac:	00000013          	nop
    108b0:	00000013          	nop
    108b4:	00000013          	nop
 
 000108b8 <test_21>:
-   108b8:	00001f37          	lui	t5,0x1
+   108b8:	800000b7          	lui	ra,0x80000
    108bc:	00000013          	nop
    108c0:	00000013          	nop
    108c4:	00000013          	nop
    108c8:	00000013          	nop
-   108cc:	00100e93          	li	t4,1
+   108cc:	4140d093          	srai	ra,ra,0x14
    108d0:	00000013          	nop
    108d4:	00000013          	nop
    108d8:	00000013          	nop
    108dc:	00000013          	nop
-   108e0:	01500193          	li	gp,21
+   108e0:	80000e93          	li	t4,-2048
    108e4:	00000013          	nop
    108e8:	00000013          	nop
    108ec:	00000013          	nop
    108f0:	00000013          	nop
-   108f4:	01df1c63          	bne	t5,t4,1090c <fail>
+   108f4:	01500193          	li	gp,21
    108f8:	00000013          	nop
    108fc:	00000013          	nop
    10900:	00000013          	nop
    10904:	00000013          	nop
-   10908:	00301463          	bne	zero,gp,10910 <pass>
+   10908:	0bd09e63          	bne	ra,t4,109c4 <fail>
+   1090c:	00000013          	nop
+   10910:	00000013          	nop
+   10914:	00000013          	nop
+   10918:	00000013          	nop
 
-0001090c <fail>:
-   1090c:	00000a6f          	jal	s4,1090c <fail>
+0001091c <test_22>:
+   1091c:	00000013          	nop
+   10920:	00000013          	nop
+   10924:	00000013          	nop
+   10928:	00000013          	nop
+   1092c:	00000013          	nop
+   10930:	00002517          	auipc	a0,0x2
+   10934:	73c50513          	addi	a0,a0,1852 # 1306c <__global_pointer$+0xd64>
+   10938:	00000013          	nop
+   1093c:	00000013          	nop
+   10940:	00000013          	nop
+   10944:	00000013          	nop
+   10948:	014005ef          	jal	a1,1095c <test_22+0x40>
+   1094c:	00000013          	nop
+   10950:	00000013          	nop
+   10954:	00000013          	nop
+   10958:	00000013          	nop
+   1095c:	40b50533          	sub	a0,a0,a1
+   10960:	00000013          	nop
+   10964:	00000013          	nop
+   10968:	00000013          	nop
+   1096c:	00000013          	nop
+   10970:	00002eb7          	lui	t4,0x2
+   10974:	710e8e93          	addi	t4,t4,1808 # 2710 <_start-0xd970>
+   10978:	00000013          	nop
+   1097c:	00000013          	nop
+   10980:	00000013          	nop
+   10984:	00000013          	nop
+   10988:	01600193          	li	gp,22
+   1098c:	00000013          	nop
+   10990:	00000013          	nop
+   10994:	00000013          	nop
+   10998:	00000013          	nop
+   1099c:	03d51463          	bne	a0,t4,109c4 <fail>
+   109a0:	00000013          	nop
+   109a4:	00000013          	nop
+   109a8:	00000013          	nop
+   109ac:	00000013          	nop
+   109b0:	02301463          	bne	zero,gp,109d8 <pass>
+   109b4:	00000013          	nop
+   109b8:	00000013          	nop
+   109bc:	00000013          	nop
+   109c0:	00000013          	nop
 
-00010910 <pass>:
-   10910:	00100193          	li	gp,1
+000109c4 <fail>:
+   109c4:	00000a6f          	jal	s4,109c4 <fail>
+   109c8:	00000013          	nop
+   109cc:	00000013          	nop
+   109d0:	00000013          	nop
+   109d4:	00000013          	nop
 
-00010914 <finish1>:
-   10914:	00000a6f          	jal	s4,10914 <finish1>
-   10918:	c0001073          	unimp
-	...
+000109d8 <pass>:
+   109d8:	00100193          	li	gp,1
+   109dc:	00000013          	nop
+   109e0:	00000013          	nop
+   109e4:	00000013          	nop
+   109e8:	00000013          	nop
+
+000109ec <finish1>:
+   109ec:	00000a6f          	jal	s4,109ec <finish1>
+   109f0:	00000013          	nop
+   109f4:	00000013          	nop
+   109f8:	00000013          	nop
+   109fc:	00000013          	nop
+   10a00:	c0001073          	unimp
