@@ -58,7 +58,7 @@ always @ (*) begin              // 判断 输入的address 是否在 cache 中�
     end
 end
 
-// FIFO
+// LRU
 reg [WAY_ADDR_LEN-1:0] order [SET_SIZE][WAY_CNT];
 reg [WAY_ADDR_LEN-1:0] way_addr;
 always @ (*) begin
@@ -75,7 +75,7 @@ always @ (*) begin
         if(way_addr == WAY_CNT) begin // full
             for(integer i = 0; i < WAY_CNT; i++) begin
                 if(order[set_addr][i] == 0)
-                    way_addr = i; // first in
+                    way_addr = i; // LRU
             end
         end
     end
@@ -99,6 +99,14 @@ always @ (posedge clk or posedge rst) begin     // ?? cache ???
         case(cache_stat)
         IDLE:       begin
                         if(cache_hit) begin
+                            if(wr_req | rd_req) begin
+                                for(integer i = 0; i < WAY_CNT; i++) begin
+                                    if(i == way_addr)
+                                        order[set_addr][i] <= WAY_CNT - 1;
+                                    else if(order[set_addr][i] > order[set_addr][way_addr])
+                                        order[set_addr][i] <= order[set_addr][i] - 1;
+                                end
+                            end
                             if(rd_req) begin    // 如果cache命中，并且是读请求，
                                 rd_data <= cache_mem[set_addr][way_addr][line_addr];   //则直接从cache中取出要读的数据
                             end else if(wr_req) begin // 如果cache命中，并且是写请求，
