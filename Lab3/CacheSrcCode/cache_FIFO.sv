@@ -21,11 +21,12 @@ localparam WAY_ADDR_LEN = $clog2(WAY_CNT);
 
 localparam LINE_SIZE       = 1 << LINE_ADDR_LEN  ;         // 计算 line 中 word 的数量，即 2^LINE_ADDR_LEN 个word 每 line
 localparam SET_SIZE        = 1 << SET_ADDR_LEN   ;         // 计算一共有多少组，即 2^SET_ADDR_LEN 个组
+localparam WAY_SIZE        = 1 << WAY_ADDR_LEN   ;
 
-reg [            31:0] cache_mem    [SET_SIZE][WAY_CNT][LINE_SIZE]; // SET_SIZE个line，每个line有LINE_SIZE个word
-reg [TAG_ADDR_LEN-1:0] cache_tags   [SET_SIZE][WAY_CNT];            // SET_SIZE个TAG
-reg                    valid        [SET_SIZE][WAY_CNT];            // SET_SIZE个valid(有效位)
-reg                    dirty        [SET_SIZE][WAY_CNT];            // SET_SIZE个dirty(脏位)
+reg [            31:0] cache_mem    [SET_SIZE][WAY_SIZE][LINE_SIZE]; // SET_SIZE个line，每个line有LINE_SIZE个word
+reg [TAG_ADDR_LEN-1:0] cache_tags   [SET_SIZE][WAY_SIZE];            // SET_SIZE个TAG
+reg                    valid        [SET_SIZE][WAY_SIZE];            // SET_SIZE个valid(有效位)
+reg                    dirty        [SET_SIZE][WAY_SIZE];            // SET_SIZE个dirty(脏位)
 
 wire [              2-1:0]   word_addr;                   // 将输入地址addr拆分成这5个部分
 wire [  LINE_ADDR_LEN-1:0]   line_addr;
@@ -59,12 +60,12 @@ always @ (*) begin              // 判断 输入的address 是否在 cache 中�
 end
 
 // FIFO
-reg [WAY_ADDR_LEN-1:0] order [SET_SIZE][WAY_CNT];
+reg [WAY_ADDR_LEN-1:0] order [SET_SIZE][WAY_SIZE];
 reg [WAY_ADDR_LEN-1:0] way_addr;
 always @ (*) begin
     way_addr = WAY_CNT;
     for(integer i = 0; i < WAY_CNT; i++) begin
-        if(cache_tags[set_addr][i] == tag_addr)
+        if(valid[set_addr][i] && cache_tags[set_addr][i] == tag_addr)
             way_addr = i; // hit
     end
     if(way_addr == WAY_CNT) begin // not hit
@@ -137,7 +138,7 @@ always @ (posedge clk or posedge rst) begin     // ?? cache ???
                         for(integer i=0; i<WAY_CNT; i++) begin
                             if(i == mem_rd_way_addr)
                                 order[mem_rd_set_addr][i] <= WAY_CNT - 1;
-                            else
+                            else if(valid[mem_rd_set_addr][i])
                                 order[mem_rd_set_addr][i] <= order[mem_rd_set_addr][i] - 1;
                         end
                         cache_stat <= IDLE;        // 回到就绪状态

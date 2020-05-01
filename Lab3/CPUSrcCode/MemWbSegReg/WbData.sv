@@ -74,9 +74,9 @@ module WB_Data_WB(
         .rst            ( rst           ),
         .miss           ( cache_miss    ),
         .addr           ( addr          ),
-        .rd_req         ( wb_select     ),
+        .rd_req         ( |load_type    ),
         .rd_data        ( data_raw      ),
-        .wr_req         ( write_en      ),
+        .wr_req         ( |write_en     ),
         .wr_data        ( in_data       )
     );
 
