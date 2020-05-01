@@ -12,7 +12,8 @@ module cache #(
     input  rd_req,             // 读请求信号
     output reg [31:0] rd_data, // 读出的数据，一次读一个word
     input  wr_req,             // 写请求信号
-    input  [31:0] wr_data      // 要写入的数据，一次写一个word
+    input  [31:0] wr_data,      // 要写入的数据，一次写一个word
+    output wire [31:0] ram_cell [1<<(TAG_ADDR_LEN + SET_ADDR_LEN + LINE_ADDR_LEN)]
 );
 
 localparam MEM_ADDR_LEN    = TAG_ADDR_LEN + SET_ADDR_LEN ; // 计算主存地址长度 MEM_ADDR_LEN，主存大小=2^MEM_ADDR_LEN个line
@@ -163,7 +164,8 @@ main_mem #(     // 主存，每次读写以line 为单位
     .rd_req         ( mem_rd_req             ),
     .rd_line        ( mem_rd_line            ),
     .wr_req         ( mem_wr_req             ),
-    .wr_line        ( mem_wr_line            )
+    .wr_line        ( mem_wr_line            ),
+    .ram_cell       ( ram_cell               )
 );
 
 endmodule

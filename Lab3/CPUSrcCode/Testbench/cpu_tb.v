@@ -19,6 +19,7 @@ module cpu_tb();
     wire [31:0] Reg2_EX;
     wire [31:0] Reg3_ID;
     wire [31:0] miss_count, hit_count;
+    wire [31:0] ram_cell [1<<17];
     always  #2 clk = ~clk;
     initial #8 rst = 1'b0;
     
@@ -41,7 +42,8 @@ module cpu_tb();
         .CPU_Debug_Reg2(Reg2_EX),
         .CPU_Debug_Reg3(Reg3_ID),
         .miss_count(miss_count),
-        .hit_count(hit_count)
+        .hit_count(hit_count),
+        .ram_cell(ram_cell)
     );
     
 endmodule

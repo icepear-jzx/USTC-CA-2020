@@ -10,7 +10,8 @@ module main_mem #(                  // 每次读取一个line
     input  rd_req,
     output reg [31:0] rd_line [1 << LINE_ADDR_LEN],
     input  wr_req,
-    input  [31:0] wr_line [1 << LINE_ADDR_LEN]
+    input  [31:0] wr_line [1 << LINE_ADDR_LEN],
+    output wire [31:0] ram_cell [1<<(ADDR_LEN + LINE_ADDR_LEN)]
 );
 
 localparam  RD_CYCLE = 50;
@@ -30,7 +31,8 @@ mem #(
     .addr      (  mem_addr      ),
     .rd_data   (  mem_rd_data   ),
     .wr_req    (  mem_wr_req    ),
-    .wr_data   (  mem_wr_data   )
+    .wr_data   (  mem_wr_data   ),
+    .ram_cell  (  ram_cell  )
 );
 
 reg  [31:0] rd_delay = 0, wr_delay = 0;
