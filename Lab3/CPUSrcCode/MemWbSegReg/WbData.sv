@@ -44,7 +44,7 @@ module WB_Data_WB(
     output wire [31:0] debug_out_data,
     output wire [31:0] data_WB,
     output reg [31:0] miss_count, hit_count,
-    output wire [31:0] ram_cell [1<<17]
+    output wire [31:0] ram_cell [1<<12]
     );
 
     wire [31:0] data_raw;
@@ -67,8 +67,8 @@ module WB_Data_WB(
 
     cache #(
         .LINE_ADDR_LEN  ( 3             ),
-        .SET_ADDR_LEN   ( 2             ),
-        .TAG_ADDR_LEN   ( 12            ),
+        .SET_ADDR_LEN   ( 3             ),
+        .TAG_ADDR_LEN   ( 6            ),
         .WAY_CNT        ( 3             )
     ) cache_test_instance (
         .clk            ( clk           ),
