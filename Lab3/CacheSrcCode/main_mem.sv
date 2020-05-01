@@ -11,7 +11,7 @@ module main_mem #(                  // 每次读取一个line
     output reg [31:0] rd_line [1 << LINE_ADDR_LEN],
     input  wr_req,
     input  [31:0] wr_line [1 << LINE_ADDR_LEN],
-    output wire [31:0] ram_cell [1<<(ADDR_LEN + LINE_ADDR_LEN)]
+    output reg [31:0] ram_cell [1<<(ADDR_LEN + LINE_ADDR_LEN)]
 );
 
 localparam  RD_CYCLE = 50;

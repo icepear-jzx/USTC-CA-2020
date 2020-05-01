@@ -13,7 +13,7 @@ module cache #(
     output reg [31:0] rd_data, // 读出的数据，一次读一个word
     input  wr_req,             // 写请求信号
     input  [31:0] wr_data,      // 要写入的数据，一次写一个word
-    output wire [31:0] ram_cell [1<<(TAG_ADDR_LEN + SET_ADDR_LEN + LINE_ADDR_LEN)]
+    output reg [31:0] ram_cell [1<<(TAG_ADDR_LEN + SET_ADDR_LEN + LINE_ADDR_LEN)]
 );
 
 localparam MEM_ADDR_LEN    = TAG_ADDR_LEN + SET_ADDR_LEN ; // 计算主存地址长度 MEM_ADDR_LEN，主存大小=2^MEM_ADDR_LEN个line

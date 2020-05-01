@@ -44,7 +44,7 @@ module WB_Data_WB(
     output wire [31:0] debug_out_data,
     output wire [31:0] data_WB,
     output reg [31:0] miss_count, hit_count,
-    output wire [31:0] ram_cell [1<<17]
+    output reg [31:0] ram_cell [1<<17]
     );
 
     wire [31:0] data_raw;
