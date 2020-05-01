@@ -7,10 +7,10 @@ module mem #(                   //
     input  [ADDR_LEN-1:0] addr, // memory address
     output reg [31:0] rd_data,  // data read out
     input  wr_req,
-    input  [31:0] wr_data,       // data write in
-    output reg [31:0] ram_cell [1<<ADDR_LEN]
+    input  [31:0] wr_data       // data write in
 );
 localparam MEM_SIZE = 1<<ADDR_LEN;
+reg [31:0] ram_cell [MEM_SIZE];
 
 always @ (posedge clk or posedge rst)
     if(rst)

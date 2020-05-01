@@ -36,8 +36,7 @@ module RV32ICore(
     output wire [31:0] CPU_Debug_Mask_op1,
     output wire [31:0] CPU_Debug_Mask_op2,
     output wire [31:0] CPU_Debug_Mask_out,
-    output wire [31:0] miss_count, hit_count,
-    output wire [31:0] ram_cell [1<<12]
+    output wire [31:0] miss_count, hit_count
     );
 	//wire values definitions
     wire bubbleF, flushF, bubbleD, flushD, bubbleE, flushE, bubbleM, flushM, bubbleW, flushW;
@@ -449,8 +448,7 @@ module RV32ICore(
         .data_WB(data_WB),
         .cache_miss(cache_miss),
         .miss_count(miss_count),
-        .hit_count(hit_count),
-        .ram_cell(ram_cell)
+        .hit_count(hit_count)
     );
 
 

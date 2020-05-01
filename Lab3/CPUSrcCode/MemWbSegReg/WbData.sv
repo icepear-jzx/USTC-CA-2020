@@ -43,8 +43,7 @@ module WB_Data_WB(
     input wire cache_miss,
     output wire [31:0] debug_out_data,
     output wire [31:0] data_WB,
-    output reg [31:0] miss_count, hit_count,
-    output wire [31:0] ram_cell [1<<12]
+    output reg [31:0] miss_count, hit_count
     );
 
     wire [31:0] data_raw;
@@ -78,8 +77,7 @@ module WB_Data_WB(
         .rd_req         ( wb_select     ),
         .rd_data        ( data_raw      ),
         .wr_req         ( write_en      ),
-        .wr_data        ( in_data       ),
-        .ram_cell       ( ram_cell      )
+        .wr_data        ( in_data       )
     );
 
 
