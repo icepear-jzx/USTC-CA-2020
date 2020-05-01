@@ -1,4 +1,4 @@
-
+`timescale 1ns / 1ps
 
 module cache #(
     parameter  LINE_ADDR_LEN = 3, // line内地址长度，决定了每个line具有2^3个word

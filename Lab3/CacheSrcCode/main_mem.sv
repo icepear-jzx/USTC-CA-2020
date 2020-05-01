@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 
 module main_mem #(                  // 每次读取一个line
     parameter  LINE_ADDR_LEN =  3,  // line内地址长度，决定了每个line具有 2^LINE_ADDR_LEN 个word
