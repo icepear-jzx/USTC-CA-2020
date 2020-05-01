@@ -68,7 +68,7 @@ module WB_Data_WB(
         .LINE_ADDR_LEN  ( 3             ),
         .SET_ADDR_LEN   ( 3             ),
         .TAG_ADDR_LEN   ( 6            ),
-        .WAY_CNT        ( 3             )
+        .WAY_CNT        ( 4             )
     ) cache_test_instance (
         .clk            ( clk           ),
         .rst            ( rst           ),
@@ -119,19 +119,32 @@ module WB_Data_WB(
                                              (wb_select_old ? data_WB_raw :
                                                           addr_old));
     
+    reg [31:0] last_addr;
+    wire cache_rd_wr = (|write_en) | (|load_type);
+    
     always @ (posedge clk or posedge rst) begin
-    if(rst) begin
-        hit_count  <= 0;
-        miss_count <= 0;
-    end else begin
-        if(wb_select || write_en) begin
-            if(cache_miss)
-                miss_count <= miss_count + 1;
-            else
-                hit_count  <= hit_count + 1;
+        if(rst) begin
+            last_addr  <= 0;
+        end else begin
+            if( cache_rd_wr ) begin
+                last_addr <= addr;
+            end
+        end
+    end    
+    
+    always @ (posedge clk or posedge rst) begin
+        if(rst) begin
+            hit_count  <= 0;
+            miss_count <= 0;
+        end else begin
+            if(cache_rd_wr & (last_addr != addr)) begin
+                if(cache_miss)
+                    miss_count <= miss_count + 1;
+                else
+                    hit_count  <= hit_count + 1;
+            end
         end
     end
-end
 
 
 

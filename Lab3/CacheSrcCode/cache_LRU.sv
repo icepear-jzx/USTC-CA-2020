@@ -64,7 +64,7 @@ reg [WAY_ADDR_LEN-1:0] way_addr;
 always @ (*) begin
     way_addr = WAY_CNT;
     for(integer i = 0; i < WAY_CNT; i++) begin
-        if(cache_tags[set_addr][i] == tag_addr)
+        if(valid[set_addr][i] && cache_tags[set_addr][i] == tag_addr)
             way_addr = i; // hit
     end
     if(way_addr == WAY_CNT) begin // not hit
