@@ -35,7 +35,8 @@ module RV32ICore(
     output wire [31:0] CPU_Debug_Reg3,
     output wire [31:0] CPU_Debug_Mask_op1,
     output wire [31:0] CPU_Debug_Mask_op2,
-    output wire [31:0] CPU_Debug_Mask_out
+    output wire [31:0] CPU_Debug_Mask_out,
+    output wire [31:0] miss_count, hit_count
     );
 	//wire values definitions
     wire bubbleF, flushF, bubbleD, flushD, bubbleE, flushE, bubbleM, flushM, bubbleW, flushW;
@@ -79,6 +80,8 @@ module RV32ICore(
     wire [31:0] csr_data_EX, csr_data_MEM, csr_data_WB;
     wire [11:0] csr_dest_EX, csr_dest_MEM, csr_dest_WB;
     wire [1:0] Mask_func_ID, Mask_func_EX;
+
+    wire cache_miss;
 
     assign CPU_Debug_PC = PC_IF;
     assign CPU_Debug_Inst = inst_ID;
@@ -430,6 +433,7 @@ module RV32ICore(
 
     WB_Data_WB WB_Data_WB1(
         .clk(CPU_CLK),
+        .rst(CPU_RST),
         .bubbleW(bubbleW),
         .flushW(flushW),
         .wb_select(wb_select_MEM),
@@ -441,7 +445,10 @@ module RV32ICore(
         .in_data(reg2_MEM),
         .debug_in_data(CPU_Debug_DataCache_WD2),
         .debug_out_data(CPU_Debug_DataCache_RD2),
-        .data_WB(data_WB)
+        .data_WB(data_WB),
+        .cache_miss(cache_miss),
+        .miss_count(miss_count),
+        .hit_count(hit_count)
     );
 
 
@@ -505,6 +512,7 @@ module RV32ICore(
         .csr_write_en_MEM(csr_write_en_MEM),
         .csr_write_en_WB(csr_write_en_WB),
         .cache_write_en(cache_write_en_EX),
+        .cache_miss(cache_miss),
         .alu_src1(alu_src1_EX),
         .alu_src2(alu_src2_EX),
         .flushF(flushF),

@@ -62,6 +62,7 @@ module HarzardUnit(
     input wire csr_write_en_MEM,
     input wire csr_write_en_WB,
     input wire [3:0] cache_write_en,
+    input wire cache_miss,
     input wire [1:0] alu_src1,
     input wire [1:0] alu_src2,
     output reg flushF, bubbleF, flushD, bubbleD, flushE, bubbleE, flushM, bubbleM, flushW, bubbleW,
@@ -95,7 +96,19 @@ module HarzardUnit(
         else 
         begin
             // flush & bubble
-            if (wb_select && ((reg_dstE == reg1_srcD) || (reg_dstE == reg2_srcD)) && reg_dstE != 5'b0) // RAW: read after load
+            if (cache_miss) begin
+                bubbleF <= 1;
+                bubbleD <= 1;
+                bubbleE <= 1;
+                bubbleM <= 1;
+                bubbleW <= 1;
+                flushF <= 0;
+                flushD <= 0;
+                flushE <= 0;
+                flushM <= 0;
+                flushW <= 0;
+            end
+            else if (wb_select && ((reg_dstE == reg1_srcD) || (reg_dstE == reg2_srcD)) && reg_dstE != 5'b0) // RAW: read after load
             begin 
                 bubbleF <= 1;
                 bubbleD <= 1;

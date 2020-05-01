@@ -33,15 +33,17 @@
     // 无需修改
 
 module WB_Data_WB(
-    input wire clk, bubbleW, flushW,
+    input wire clk, bubbleW, flushW, rst,
     input wire wb_select,
     input wire [2:0] load_type,
     input  [3:0] write_en, debug_write_en,
     input  [31:0] addr,
     input  [31:0] debug_addr,
     input  [31:0] in_data, debug_in_data,
+    input wire cache_miss,
     output wire [31:0] debug_out_data,
-    output wire [31:0] data_WB
+    output wire [31:0] data_WB,
+    output reg [31:0] miss_count, hit_count
     );
 
     wire [31:0] data_raw;
@@ -49,20 +51,34 @@ module WB_Data_WB(
 
 
 
-    DataCache DataCache1(
-        .clk(clk),
-        .write_en(write_en << addr[1:0]),
-        .debug_write_en(debug_write_en),
-        .addr(addr[31:2]),
-        .debug_addr(debug_addr[31:2]),
-        .in_data(in_data << (8 * addr[1:0])),
-        .debug_in_data(debug_in_data),
-        .out_data(data_raw),
-        .debug_out_data(debug_out_data)
+    // DataCache DataCache1(
+    //     .clk(clk),
+    //     .write_en(write_en << addr[1:0]),
+    //     .debug_write_en(debug_write_en),
+    //     .addr(addr[31:2]),
+    //     .debug_addr(debug_addr[31:2]),
+    //     .in_data(in_data << (8 * addr[1:0])),
+    //     .debug_in_data(debug_in_data),
+    //     .out_data(data_raw),
+    //     .debug_out_data(debug_out_data)
+    // );
+
+
+    cache #(
+        .LINE_ADDR_LEN  ( 3             ),
+        .SET_ADDR_LEN   ( 2             ),
+        .TAG_ADDR_LEN   ( 12            ),
+        .WAY_CNT        ( 3             )
+    ) cache_test_instance (
+        .clk            ( clk           ),
+        .rst            ( rst           ),
+        .miss           ( cache_miss    ),
+        .addr           ( addr          ),
+        .rd_req         ( wb_select     ),
+        .rd_data        ( data_raw      ),
+        .wr_req         ( write_en      ),
+        .wr_data        ( in_data       )
     );
-
-
-
 
 
 
@@ -102,6 +118,20 @@ module WB_Data_WB(
                                  (flush_ff ? 32'b0 : 
                                              (wb_select_old ? data_WB_raw :
                                                           addr_old));
+    
+    always @ (posedge clk or posedge rst) begin
+    if(rst) begin
+        hit_count  <= 0;
+        miss_count <= 0;
+    end else begin
+        if(wb_select || write_en) begin
+            if(cache_miss)
+                miss_count <= miss_count + 1;
+            else
+                hit_count  <= hit_count + 1;
+        end
+    end
+end
 
 
 
