@@ -4,7 +4,7 @@ module cache #(
     parameter  LINE_ADDR_LEN = 3, // line内地址长度，决定了每个line具有2^3个word
     parameter  SET_ADDR_LEN  = 3, // 组地址长度，决定了一共有2^3=8组
     parameter  TAG_ADDR_LEN  = 6, // tag长度
-    parameter  WAY_CNT       = 3  // 组相连度，决定了每组中有多少路line，这里是直接映射型cache，因此该参数没用到
+    parameter  WAY_CNT       = 4  // 组相连度，决定了每组中有多少路line，这里是直接映射型cache，因此该参数没用到
 )(
     input  clk, rst,
     output miss,               // 对CPU发出的miss信号
@@ -63,11 +63,12 @@ reg [WAY_ADDR_LEN-1:0] order [SET_SIZE][WAY_CNT];
 reg [WAY_ADDR_LEN-1:0] way_addr;
 always @ (*) begin
     way_addr = WAY_CNT;
-    for(integer i = 0; i < WAY_CNT; i++) begin
-        if(valid[set_addr][i] && cache_tags[set_addr][i] == tag_addr)
-            way_addr = i; // hit
-    end
-    if(way_addr == WAY_CNT) begin // not hit
+    if(cache_hit) begin
+        for(integer i = 0; i < WAY_CNT; i++) begin
+            if(valid[set_addr][i] && cache_tags[set_addr][i] == tag_addr)
+                way_addr = i; // hit
+        end
+    end else if(rd_req | wr_req) begin
         for(integer i = 0; i < WAY_CNT; i++) begin
             if(!valid[set_addr][i])
                 way_addr = i; // not full

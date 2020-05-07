@@ -40,7 +40,7 @@ module WB_Data_WB(
     input  [31:0] addr,
     input  [31:0] debug_addr,
     input  [31:0] in_data, debug_in_data,
-    input wire cache_miss,
+    output wire cache_miss,
     output wire [31:0] debug_out_data,
     output wire [31:0] data_WB,
     output reg [31:0] miss_count, hit_count
@@ -65,9 +65,9 @@ module WB_Data_WB(
 
 
     cache #(
-        .LINE_ADDR_LEN  ( 3             ),
+        .LINE_ADDR_LEN  ( 4             ),
         .SET_ADDR_LEN   ( 3             ),
-        .TAG_ADDR_LEN   ( 6            ),
+        .TAG_ADDR_LEN   ( 5            ),
         .WAY_CNT        ( 4             )
     ) cache_test_instance (
         .clk            ( clk           ),
@@ -145,6 +145,7 @@ module WB_Data_WB(
             end
         end
     end
+
 
 
 
