@@ -49,15 +49,7 @@ module InstructionCache(
         inst_cache[      27] = 32'hfad34ae3;
         inst_cache[      28] = 32'h00428293;
         inst_cache[      29] = 32'hfad2c4e3;
-        inst_cache[      30] = 32'h00100293;
-        inst_cache[      31] = 32'h00e292b3;
-        inst_cache[      32] = 32'h00e292b3;
-        inst_cache[      33] = 32'h00229293;
-        inst_cache[      34] = 32'h00000313;
-        inst_cache[      35] = 32'h00032383;
-        inst_cache[      36] = 32'h00430313;
-        inst_cache[      37] = 32'hfe534ce3;
-        inst_cache[      38] = 32'h0000006f;
+        inst_cache[      30] = 32'h0000006f;
 end
 
     always@(posedge clk)
