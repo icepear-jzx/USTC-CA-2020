@@ -65,21 +65,28 @@ always @ (*) begin
     way_addr = WAY_CNT;
     if(cache_hit) begin
         for(integer i = 0; i < WAY_CNT; i++) begin
-            if(valid[set_addr][i] && cache_tags[set_addr][i] == tag_addr)
+            if(cache_tags[set_addr][i] == tag_addr) begin
                 way_addr = i; // hit
+                break;
+            end
         end
     end else if(rd_req | wr_req) begin // not hit
         for(integer i = 0; i < WAY_CNT; i++) begin
-            if(!valid[set_addr][i])
+            if(valid[set_addr][i] == 1'b0) begin
                 way_addr = i; // not full
+                break;
+            end
         end
         if(way_addr == WAY_CNT) begin // full
             for(integer i = 0; i < WAY_CNT; i++) begin
-                if(order[set_addr][i] == 0)
+                if(order[set_addr][i] == 0) begin
                     way_addr = i; // first in
+                    break;
+                end
             end
         end
-    end
+    end else
+        way_addr = 0;
 end
 
 always @ (posedge clk or posedge rst) begin     // ?? cache ???

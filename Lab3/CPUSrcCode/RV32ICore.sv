@@ -33,6 +33,7 @@ module RV32ICore(
     output wire [31:0] CPU_Debug_ALU_out,
     output wire [31:0] CPU_Debug_Reg2,
     output wire [31:0] CPU_Debug_Reg3,
+    output wire [31:0] CPU_Debug_Reg7,
     output wire [31:0] CPU_Debug_Mask_op1,
     output wire [31:0] CPU_Debug_Mask_op2,
     output wire [31:0] CPU_Debug_Mask_out,
@@ -52,7 +53,7 @@ module RV32ICore(
     wire [31:0] data_WB;
     wire [31:0] reg1, reg1_EX;
     wire [31:0] reg2, reg2_EX, reg2_MEM;
-    wire [31:0] reg3;
+    wire [31:0] reg3, reg7;
     wire [31:0] op1, op2;
     wire [31:0] reg_or_imm;
     wire op1_src, op2_src;
@@ -90,6 +91,7 @@ module RV32ICore(
     assign CPU_Debug_ALU_out = ALU_out;
     assign CPU_Debug_Reg2 = reg2_EX;
     assign CPU_Debug_Reg3 = reg3;
+    assign CPU_Debug_Reg7 = reg7;
     assign CPU_Debug_Mask_op1 = csr_op1;
     assign CPU_Debug_Mask_op2 = csr_op2;
     assign CPU_Debug_Mask_out = csr_data_EX;
@@ -203,7 +205,8 @@ module RV32ICore(
         .wb_data(data_WB),
         .reg1(reg1),
         .reg2(reg2),
-        .reg3(reg3)
+        .reg3(reg3),
+        .reg7(reg7)
     );
 
     CSRFile CSRFile1(

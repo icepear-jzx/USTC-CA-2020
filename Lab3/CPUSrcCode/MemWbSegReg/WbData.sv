@@ -65,9 +65,9 @@ module WB_Data_WB(
 
 
     cache #(
-        .LINE_ADDR_LEN  ( 4             ),
+        .LINE_ADDR_LEN  ( 3             ),
         .SET_ADDR_LEN   ( 3             ),
-        .TAG_ADDR_LEN   ( 5            ),
+        .TAG_ADDR_LEN   ( 6            ),
         .WAY_CNT        ( 4             )
     ) cache_test_instance (
         .clk            ( clk           ),

@@ -36,7 +36,7 @@ module RegisterFile(
     input wire write_en,
     input wire [4:0] addr1, addr2, wb_addr,
     input wire [31:0] wb_data,
-    output wire [31:0] reg1, reg2, reg3
+    output wire [31:0] reg1, reg2, reg3, reg7
     );
 
     reg [31:0] reg_file[31:1];
@@ -66,6 +66,7 @@ module RegisterFile(
     assign reg1 = (addr1 == 5'b0) ? 32'h0 : reg_file[addr1];
     assign reg2 = (addr2 == 5'b0) ? 32'h0 : reg_file[addr2];
     assign reg3 = reg_file[5'b00011];
+    assign reg7 = reg_file[5'h7];
 
 
 
