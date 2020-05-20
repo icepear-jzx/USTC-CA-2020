@@ -13,7 +13,7 @@ module BTB_BHT #(
     output reg PC_pred_en_IF
 );
 
-localparam TAG_ADDR_LEN = 32 - ENTRY_ADDR_LEN;
+localparam TAG_ADDR_LEN = 30 - ENTRY_ADDR_LEN;
 localparam ENTRY_SIZE = 1 << ENTRY_ADDR_LEN;
 
 wire op_br_EX = (opcode_EX == 7'b1100011) ? 1'b1 : 1'b0;
@@ -23,9 +23,9 @@ reg [31:0] target_buffer [ENTRY_SIZE];
 reg BTB_pred_bit [ENTRY_SIZE];
 reg [1:0] BHT_pred_bits [ENTRY_SIZE];
 
-wire [ENTRY_ADDR_LEN-1:0] entry_addr_IF = PC_origin_IF[ENTRY_ADDR_LEN-1:0];
+wire [ENTRY_ADDR_LEN-1:0] entry_addr_IF = PC_origin_IF[ENTRY_ADDR_LEN+1:2];
 wire [TAG_ADDR_LEN-1:0] tag_addr_IF = PC_origin_IF[31:32-TAG_ADDR_LEN];
-wire [ENTRY_ADDR_LEN-1:0] entry_addr_EX = PC_origin_EX[ENTRY_ADDR_LEN-1:0];
+wire [ENTRY_ADDR_LEN-1:0] entry_addr_EX = PC_origin_EX[ENTRY_ADDR_LEN+1:2];
 wire [TAG_ADDR_LEN-1:0] tag_addr_EX = PC_origin_EX[31:32-TAG_ADDR_LEN];
 
 
