@@ -571,9 +571,9 @@ module RV32ICore(
 
     assign opcode_ID = inst_ID[6:0];
 
-    BTB #(
+    BTB_BHT #(
         .ENTRY_ADDR_LEN(12)
-    ) BTB_instance (
+    ) BTB_BHT_instance (
         .clk(CPU_CLK), 
         .rst(CPU_RST),
         .PC_origin_IF(PC_IF),
