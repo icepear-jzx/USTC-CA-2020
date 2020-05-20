@@ -29,6 +29,8 @@
 
 module NPC_Generator(
     input wire [31:0] PC, jal_target, jalr_target, br_target,
+    input wire [31:0] PC_EX, PC_pred_IF,
+    input PC_pred_en_IF, PC_pred_en_EX,
     input wire jal, jalr, br,
     output reg [31:0] NPC
     );
@@ -37,12 +39,16 @@ module NPC_Generator(
     
     always@(*)
     begin
-        if (br == 1)
-            NPC <= br_target;
-        else if (jalr == 1)
+        if (jalr)
             NPC <= jalr_target;
-        else if (jal == 1) 
+        else if (br & ~PC_pred_en_EX)
+            NPC <= br_target;
+        else if (~br & PC_pred_en_EX)
+            NPC <= PC_EX;
+        else if (jal)
             NPC <= jal_target;
+        else if (PC_pred_en_IF)
+            NPC <= PC_pred_IF;
         else
             NPC <= PC;
     end

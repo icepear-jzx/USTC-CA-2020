@@ -146,6 +146,10 @@ module RV32ICore(
         .jal_target(jal_target),
         .jalr_target(ALU_out),
         .br_target(br_target),
+        .PC_EX(PC_EX), 
+        .PC_pred_IF(PC_pred_IF),
+        .PC_pred_en_IF(PC_pred_en_IF), 
+        .PC_pred_en_EX(PC_pred_en_EX),
         .jal(jal),
         .jalr(jalr_EX),
         .br(br),
@@ -189,6 +193,15 @@ module RV32ICore(
     );
 
 
+    Pred_ID Pred_ID1(
+        .clk(CPU_CLK), 
+        .bubbleD(bubbleD), 
+        .flushD(flushD),
+        .PC_pred_IF(PC_pred_IF),
+        .PC_pred_en_IF(PC_pred_en_IF),
+        .PC_pred_ID(PC_pred_ID),
+        .PC_pred_en_ID(PC_pred_en_ID)
+    );
 
     // ---------------------------------------------
     // ID stage
@@ -350,6 +363,18 @@ module RV32ICore(
         .reg1_or_zimm_EX(reg1_or_zimm_EX)
     );
 
+    Pred_EX Pred_EX1(
+        .clk(CPU_CLK), 
+        .bubbleE(bubbleE), 
+        .flushE(flushE),
+        .opcode_ID(opcode_ID),
+        .PC_pred_ID(PC_pred_ID),
+        .PC_pred_en_ID(PC_pred_en_ID),
+        .opcode_EX(opcode_EX),
+        .PC_pred_EX(PC_pred_EX),
+        .PC_pred_en_EX(PC_pred_en_EX)
+    );
+
     // ---------------------------------------------
     // EX stage
     // ---------------------------------------------
@@ -507,6 +532,7 @@ module RV32ICore(
         .br(br),
         .jalr(jalr_EX),
         .jal(jal),
+        .PC_pred_en_EX(PC_pred_en_EX),
         .src_reg_en(src_reg_en_EX),
         .csr_read_en(csr_read_en_EX),
         .wb_select(wb_select_EX),
@@ -534,5 +560,29 @@ module RV32ICore(
         .csr_op1_sel(csr_op1_sel),
         .csr_op2_sel(csr_op2_sel)
     );  
-    	         
+
+    // ---------------------------------------------
+    // BTB
+    // ---------------------------------------------
+
+    wire [6:0] opcode_ID, opcode_EX;
+    wire [31:0] PC_pred_IF, PC_pred_ID, PC_pred_EX;
+    wire PC_pred_en_IF, PC_pred_en_ID, PC_pred_en_EX;
+
+    assign opcode_ID = inst_ID[6:0];
+
+    BTB #(
+        .ENTRY_ADDR_LEN(12)
+    ) BTB_instance (
+        .clk(CPU_CLK), 
+        .rst(CPU_RST),
+        .PC_origin_IF(PC_IF),
+        .PC_origin_EX(PC_EX - 4),
+        .PC_target_EX(br_target),
+        .br_EX(br),
+        .opcode_EX(opcode_EX),
+        .PC_pred_IF(PC_pred_IF),
+        .PC_pred_en_IF(PC_pred_en_IF)
+    );
+
 endmodule

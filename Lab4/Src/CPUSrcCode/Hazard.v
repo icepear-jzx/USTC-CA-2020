@@ -53,7 +53,7 @@ module HarzardUnit(
     input wire rst,
     input wire [4:0] reg1_srcD, reg2_srcD, reg1_srcE, reg2_srcE, reg_dstE, reg_dstM, reg_dstW,
     input wire [11:0] csr_dstE, csr_dstM, csr_dstW,
-    input wire br, jalr, jal,
+    input wire br, jalr, jal, PC_pred_en_EX,
     input wire [1:0] src_reg_en,
     input wire csr_read_en,
     input wire wb_select,
@@ -76,18 +76,10 @@ module HarzardUnit(
     begin
         if (rst) 
         begin
-            // flush
-            flushF <= 1;
-            flushD <= 1;
-            flushE <= 1;
-            flushM <= 1;
-            flushW <= 1;
             // bubble
-            bubbleF <= 0;
-            bubbleD <= 0;
-            bubbleE <= 0;
-            bubbleM <= 0;
-            bubbleW <= 0;
+            {bubbleF, bubbleD, bubbleE, bubbleM, bubbleW} <= 5'b00000;
+            // flush
+            {flushF, flushD, flushE, flushM, flushW} <= 5'b11111;
             // sel
             op1_sel <= 3'b011;
             op2_sel <= 3'b011;
@@ -95,70 +87,34 @@ module HarzardUnit(
         end
         else 
         begin
-            // flush & bubble
+            // bubble & flush
             if (cache_miss) begin
-                bubbleF <= 1;
-                bubbleD <= 1;
-                bubbleE <= 1;
-                bubbleM <= 1;
-                bubbleW <= 1;
-                flushF <= 0;
-                flushD <= 0;
-                flushE <= 0;
-                flushM <= 0;
-                flushW <= 0;
-            end
-            else if (wb_select && ((reg_dstE == reg1_srcD) || (reg_dstE == reg2_srcD)) && reg_dstE != 5'b0) // RAW: read after load
+                {bubbleF, bubbleD, bubbleE, bubbleM, bubbleW} <= 5'b11111;
+                {flushF, flushD, flushE, flushM, flushW} <= 5'b00000;
+            end else if (wb_select && ((reg_dstE == reg1_srcD) || 
+                (reg_dstE == reg2_srcD)) && reg_dstE != 5'b0) // RAW: read after load
             begin 
-                bubbleF <= 1;
-                bubbleD <= 1;
-                bubbleE <= 0;
-                bubbleM <= 0;
-                bubbleW <= 0;
-                flushF <= 0;
-                flushD <= 0;
-                flushE <= 1;
-                flushM <= 0;
-                flushW <= 0;
-            end
-            else if (jalr | br) // EX jump
+                {bubbleF, bubbleD, bubbleE, bubbleM, bubbleW} <= 5'b11000;
+                {flushF, flushD, flushE, flushM, flushW} <= 5'b00100;
+            end else if (br & PC_pred_en_EX)
             begin
-                bubbleF <= 0;
-                bubbleD <= 0;
-                bubbleE <= 0;
-                bubbleM <= 0;
-                bubbleW <= 0;
-                flushF <= 0;
-                flushD <= 1;
-                flushE <= 1;
-                flushM <= 0;
-                flushW <= 0;
-            end
-            else if (jal) // ID jump
+                {bubbleF, bubbleD, bubbleE, bubbleM, bubbleW} <= 5'b00000;
+                {flushF, flushD, flushE, flushM, flushW} <= 5'b00000;
+            end else if (~br & PC_pred_en_EX)
+            begin
+                {bubbleF, bubbleD, bubbleE, bubbleM, bubbleW} <= 5'b00000;
+                {flushF, flushD, flushE, flushM, flushW} <= 5'b01100;
+            end else if (jalr | br) // EX jump
+            begin
+                {bubbleF, bubbleD, bubbleE, bubbleM, bubbleW} <= 5'b00000;
+                {flushF, flushD, flushE, flushM, flushW} <= 5'b01100;
+            end else if (jal) // ID jump
             begin 
-                bubbleF <= 0;
-                bubbleD <= 0;
-                bubbleE <= 0;
-                bubbleM <= 0;
-                bubbleW <= 0;
-                flushF <= 0;
-                flushD <= 1;
-                flushE <= 0;
-                flushM <= 0;
-                flushW <= 0;
-            end
-            else
-            begin
-                bubbleF <= 0;
-                bubbleD <= 0;
-                bubbleE <= 0;
-                bubbleM <= 0;
-                bubbleW <= 0;
-                flushF <= 0;
-                flushD <= 0;
-                flushE <= 0;
-                flushM <= 0;
-                flushW <= 0;
+                {bubbleF, bubbleD, bubbleE, bubbleM, bubbleW} <= 5'b00000;
+                {flushF, flushD, flushE, flushM, flushW} <= 5'b01000;
+            end else begin
+                {bubbleF, bubbleD, bubbleE, bubbleM, bubbleW} <= 5'b00000;
+                {flushF, flushD, flushE, flushM, flushW} <= 5'b00000;
             end
             // op1_sel
             if (alu_src1 == 2'b00)
