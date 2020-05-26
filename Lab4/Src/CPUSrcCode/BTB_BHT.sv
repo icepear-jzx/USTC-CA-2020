@@ -7,10 +7,13 @@ module BTB_BHT #(
     input wire [31:0] PC_origin_IF,
     input wire [31:0] PC_origin_EX,
     input wire [31:0] PC_target_EX,
+    input wire PC_pred_en_EX,
     input wire br_EX,
     input wire [6:0] opcode_EX,
     output reg [31:0] PC_pred_IF,
-    output reg PC_pred_en_IF
+    output reg PC_pred_en_IF,
+    output reg [31:0] pred_right_cnt,
+    output reg [31:0] pred_wrong_cnt
 );
 
 localparam TAG_ADDR_LEN = 30 - ENTRY_ADDR_LEN;
@@ -73,6 +76,21 @@ always @ (posedge clk or posedge rst) begin
                     2'b11: BHT_pred_bits[entry_addr_EX] <= 2'b10;
                 endcase
             end
+        end
+    end
+end
+
+
+always @ (posedge clk or posedge rst) begin
+    if (rst) begin
+        pred_right_cnt <= 0;
+        pred_wrong_cnt <= 0;
+    end else begin
+        if (op_br_EX) begin
+            if (br_EX ^ PC_pred_en_EX)
+                pred_wrong_cnt <= pred_wrong_cnt + 1;
+            else
+                pred_right_cnt <= pred_right_cnt + 1;
         end
     end
 end

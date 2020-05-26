@@ -37,7 +37,8 @@ module RV32ICore(
     output wire [31:0] CPU_Debug_Mask_op1,
     output wire [31:0] CPU_Debug_Mask_op2,
     output wire [31:0] CPU_Debug_Mask_out,
-    output wire [31:0] miss_count, hit_count
+    output wire [31:0] miss_count, hit_count,
+    output wire [31:0] pred_right_cnt, pred_wrong_cnt
     );
 	//wire values definitions
     wire bubbleF, flushF, bubbleD, flushD, bubbleE, flushE, bubbleM, flushM, bubbleW, flushW;
@@ -579,10 +580,13 @@ module RV32ICore(
         .PC_origin_IF(PC_IF),
         .PC_origin_EX(PC_EX - 4),
         .PC_target_EX(br_target),
+        .PC_pred_en_EX(PC_pred_en_EX),
         .br_EX(br),
         .opcode_EX(opcode_EX),
         .PC_pred_IF(PC_pred_IF),
-        .PC_pred_en_IF(PC_pred_en_IF)
+        .PC_pred_en_IF(PC_pred_en_IF),
+        .pred_right_cnt(pred_right_cnt),
+        .pred_wrong_cnt(pred_wrong_cnt)
     );
 
     // BTB #(
@@ -593,10 +597,13 @@ module RV32ICore(
     //     .PC_origin_IF(PC_IF),
     //     .PC_origin_EX(PC_EX - 4),
     //     .PC_target_EX(br_target),
+    //     .PC_pred_en_EX(PC_pred_en_EX),
     //     .br_EX(br),
     //     .opcode_EX(opcode_EX),
     //     .PC_pred_IF(PC_pred_IF),
-    //     .PC_pred_en_IF(PC_pred_en_IF)
+    //     .PC_pred_en_IF(PC_pred_en_IF),
+    //     .pred_right_cnt(pred_right_cnt),
+    //     .pred_wrong_cnt(pred_wrong_cnt)
     // );
 
 endmodule
