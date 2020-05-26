@@ -84,6 +84,10 @@ module RV32ICore(
 
     wire cache_miss;
 
+    wire [6:0] opcode_ID, opcode_EX;
+    wire [31:0] PC_pred_IF, PC_pred_ID, PC_pred_EX;
+    wire PC_pred_en_IF, PC_pred_en_ID, PC_pred_en_EX;
+
     assign CPU_Debug_PC = PC_IF;
     assign CPU_Debug_Inst = inst_ID;
     assign CPU_Debug_ALU_op1 = ALU_op1;
@@ -134,6 +138,8 @@ module RV32ICore(
     assign csr_op2 = (csr_op2_sel == 2'h0) ? csr_data_MEM : 
                                         ((csr_op2_sel == 2'h1) ? csr_data_WB : csr_out_EX);
 
+
+    assign opcode_ID = inst_ID[6:0];
 
     //Module connections
     // ---------------------------------------------
@@ -565,14 +571,8 @@ module RV32ICore(
     // BTB
     // ---------------------------------------------
 
-    wire [6:0] opcode_ID, opcode_EX;
-    wire [31:0] PC_pred_IF, PC_pred_ID, PC_pred_EX;
-    wire PC_pred_en_IF, PC_pred_en_ID, PC_pred_en_EX;
-
-    assign opcode_ID = inst_ID[6:0];
-
     BTB_BHT #(
-        .ENTRY_ADDR_LEN(12)
+        .ENTRY_ADDR_LEN(6)
     ) BTB_BHT_instance (
         .clk(CPU_CLK), 
         .rst(CPU_RST),
@@ -584,5 +584,19 @@ module RV32ICore(
         .PC_pred_IF(PC_pred_IF),
         .PC_pred_en_IF(PC_pred_en_IF)
     );
+
+    // BTB #(
+    //     .ENTRY_ADDR_LEN(6)
+    // ) BTB_instance (
+    //     .clk(CPU_CLK), 
+    //     .rst(CPU_RST),
+    //     .PC_origin_IF(PC_IF),
+    //     .PC_origin_EX(PC_EX - 4),
+    //     .PC_target_EX(br_target),
+    //     .br_EX(br),
+    //     .opcode_EX(opcode_EX),
+    //     .PC_pred_IF(PC_pred_IF),
+    //     .PC_pred_en_IF(PC_pred_en_IF)
+    // );
 
 endmodule
