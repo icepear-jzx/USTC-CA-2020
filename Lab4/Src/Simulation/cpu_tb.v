@@ -20,6 +20,7 @@ module cpu_tb();
     wire [31:0] Reg3_ID;
     wire [31:0] Reg7_ID;
     wire [31:0] miss_count, hit_count;
+    wire [31:0] pred_right_cnt, pred_wrong_cnt;
     always  #2 clk = ~clk;
     initial #8 rst = 1'b0;
     
@@ -43,7 +44,9 @@ module cpu_tb();
         .CPU_Debug_Reg3(Reg3_ID),
         .CPU_Debug_Reg7(Reg7_ID),
         .miss_count(miss_count),
-        .hit_count(hit_count)
+        .hit_count(hit_count),
+        .pred_right_cnt(pred_right_cnt),
+        .pred_wrong_cnt(pred_wrong_cnt)
     );
     
 endmodule
